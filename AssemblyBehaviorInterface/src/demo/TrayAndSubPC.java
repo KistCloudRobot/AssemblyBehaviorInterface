@@ -13,7 +13,7 @@ public class TrayAndSubPC {
 		String trayPort = Configuration.TRAY_PORT;
 		String subPCPort = Configuration.SUB_PC_PORT;
 		
-		BehaviorInterface bi = new TrayBehaviorInterface(brokerAddress,brokerPort ,trayPort , subPCPort);
+		BehaviorInterface bi = new TrayBehaviorInterface(brokerAddress, brokerPort , trayPort, subPCPort);
 		ArbiAgentExecutor.execute(brokerAddress, brokerPort, Configuration.BEHAVIOR_INTERFACE_ADDRESS, bi, Configuration.BROKER_TYPE);
 	}
 }

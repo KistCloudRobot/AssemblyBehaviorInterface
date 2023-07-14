@@ -8,13 +8,7 @@ public abstract class BehaviorInterface extends ArbiAgent{
 
 	protected DataSource dataSource;
 	
-	private String brokerAddress;
-	private int brokerPort;
-	
 	public BehaviorInterface(String brokerAddress, int brokerPort) {
-		this.brokerAddress = brokerAddress;
-		this.brokerPort = brokerPort;
-
 		dataSource = new DataSource();
 		dataSource.connect(brokerAddress, brokerPort, Configuration.BEHAVIOR_INTERFACE_DATA_SOURCE_ADDRESS, Configuration.BROKER_TYPE);
 	}
