@@ -1,0 +1,56 @@
+package kr.ac.uos.ai.behavior.communication.message.serial.request;
+
+import kr.ac.uos.ai.arbi.model.Expression;
+import kr.ac.uos.ai.arbi.model.GLFactory;
+import kr.ac.uos.ai.arbi.model.GeneralizedList;
+import kr.ac.uos.ai.behavior.communication.message.serial.SerialMessage;
+import kr.ac.uos.ai.behavior.communication.message.serial.response.GripperResponseMessage;
+import kr.ac.uos.ai.behavior.communication.message.value.ActionType;
+import kr.ac.uos.ai.behavior.communication.message.value.GripperRotation;
+
+public class Rotate extends SerialMessage {
+
+	private GripperRotation rotation;
+	
+	public Rotate(String sender, String actionID, String action) {
+		this(sender, actionID, GripperRotation.valueOf(action));
+	}
+	private Rotate(String sender, String actionID, GripperRotation rotation) {
+		super(sender, ActionType.RotateGripper, actionID);
+		this.rotation = rotation;
+	}
+
+	public String getMessage() {
+		String message = null;
+		if(rotation == GripperRotation.On) {
+			message = "<OUT03=1/>";
+		} else if (rotation == GripperRotation.Off) {
+			message = "<OUT03=0/>";
+		}
+		return message;
+	}
+
+	@Override
+	public String makeResponse() {
+		GeneralizedList gl = null;
+		Expression actionID = null;
+		Expression actionResult = null;
+		if (responseMessage == null) {
+			gl = GLFactory.newGL("ok");
+		} else if(responseMessage instanceof GripperResponseMessage) {
+			actionID = GLFactory.newExpression(GLFactory.newValue(this.getActionID()));
+			String[] response = ((GripperResponseMessage) responseMessage).getResponse();
+			if (this.rotation == GripperRotation.On && response[6].equals("1")) {
+				actionResult = GLFactory.newExpression(GLFactory.newValue("success"));
+			} else if (this.rotation == GripperRotation.Off && response[7].equals("1")) {
+				actionResult = GLFactory.newExpression(GLFactory.newValue("success"));
+			}
+			gl = GLFactory.newGL("ActionResult", actionID, actionResult);
+		} else {
+			System.out.println("something is wrong");
+			gl = GLFactory.newGL("fail");
+		}
+		return gl.toString();
+	}
+
+}
