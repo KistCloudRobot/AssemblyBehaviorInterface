@@ -6,6 +6,9 @@ public enum ActionType {
 	Grasp,						Release,
 	RotateGripper,				
 	
+	EpsonGripperInitialize,
+	URGripperInitialize,
+	
 	RiseGuideJig,				VisionInspect,
 	CheckLabel,
 	

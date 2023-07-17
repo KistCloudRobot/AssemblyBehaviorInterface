@@ -82,6 +82,10 @@ public class RobotCommunication extends Communication{
 		this.checkRobotStatus.start();
 	}
 	
+	public RobotID getRobotID() {
+		return robotID;
+	}
+	
 	private class CheckRobotStatus extends Thread {
 		@Override
 		public void run() {

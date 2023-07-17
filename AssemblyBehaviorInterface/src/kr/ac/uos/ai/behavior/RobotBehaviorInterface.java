@@ -9,6 +9,7 @@ import kr.ac.uos.ai.behavior.communication.RobotCommunication;
 import kr.ac.uos.ai.behavior.communication.message.BehaviorMessage;
 import kr.ac.uos.ai.behavior.communication.message.robot.acknowledge.RobotStatusMessage;
 import kr.ac.uos.ai.behavior.communication.message.value.ActionType;
+import kr.ac.uos.ai.behavior.communication.message.value.RobotID;
 
 public class RobotBehaviorInterface extends BehaviorInterface{
 
@@ -26,6 +27,17 @@ public class RobotBehaviorInterface extends BehaviorInterface{
 		gripperCommunication.connect();
 		
 		assertInitialStatus(robotID);
+	}
+	
+	@Override
+	public void onStart() {
+		super.onStart();
+		
+		if (robotCommunication.getRobotID().equals(RobotID.Epson)) {
+			gripperCommunication.epsonGripperInitialize(Configuration.BEHAVIOR_INTERFACE_ADDRESS, "init");
+		} else if (robotCommunication.getRobotID().equals(RobotID.UR)) {
+			gripperCommunication.sendCheck();
+		}
 	}
 	
 	private void assertInitialStatus(String robotID) {
@@ -75,7 +87,10 @@ public class RobotBehaviorInterface extends BehaviorInterface{
 				rotation = gl.getExpression(1).asValue().stringValue();
 				response = gripperCommunication.rotate(sender, actionID, rotation);
 				break;
-								
+							
+			case EpsonGripperInitialize :
+				response = gripperCommunication.epsonGripperInitialize(sender, actionID);
+				break;
 			default :
 				response = "(wrongRequest)";
 				break;

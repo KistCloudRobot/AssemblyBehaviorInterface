@@ -2,6 +2,7 @@ package kr.ac.uos.ai.behavior.communication;
 
 import kr.ac.uos.ai.behavior.BehaviorInterface;
 import kr.ac.uos.ai.behavior.communication.message.serial.SerialMessage;
+import kr.ac.uos.ai.behavior.communication.message.serial.request.EpsonGripperInitialize;
 import kr.ac.uos.ai.behavior.communication.message.serial.request.Grasp;
 import kr.ac.uos.ai.behavior.communication.message.serial.request.Release;
 import kr.ac.uos.ai.behavior.communication.message.serial.request.Rotate;
@@ -28,6 +29,8 @@ public class GripperCommunication extends SerialCommunication {
 			
 			this.waitingResponse = null;
 			this.currentAction = null;
+		} else if (this.waitingResponse == null && message.startsWith("<I>")) {
+			System.out.println("check? " + message);
 		} else System.out.println("wrong message from gripper : " + message);
 	}
 	
@@ -44,7 +47,7 @@ public class GripperCommunication extends SerialCommunication {
 			this.waitingResponse = new Grasp(sender, actionID, object);
 			this.currentAction = waitingResponse.getActionType();
 			this.adaptor.send(waitingResponse.getMessage());
-			this.check.start();
+			this.sendCheck();
 			return waitingResponse.getResponse();
 		}
 		return null;
@@ -55,7 +58,7 @@ public class GripperCommunication extends SerialCommunication {
 			this.waitingResponse = new Release(sender, actionID, object);
 			this.currentAction = waitingResponse.getActionType();
 			this.adaptor.send(waitingResponse.getMessage());
-			this.check.start();
+			this.sendCheck();
 			return waitingResponse.getResponse();
 		}
 		return null;
@@ -66,10 +69,25 @@ public class GripperCommunication extends SerialCommunication {
 			this.waitingResponse = new Rotate(sender, actionID, rotation);
 			this.currentAction = waitingResponse.getActionType();
 			this.adaptor.send(waitingResponse.getMessage());
-			this.check.start();
+			this.sendCheck();
 			return waitingResponse.getResponse();
 		}
 		return null;
+	}
+	
+	public String epsonGripperInitialize(String sender, String actionID) {
+		if(waitingResponse == null && currentAction == null) {
+			this.waitingResponse = new EpsonGripperInitialize(sender, actionID);
+			this.currentAction = waitingResponse.getActionType();
+			this.adaptor.send(waitingResponse.getMessage());
+			this.sendCheck();
+			return waitingResponse.getResponse();
+		}
+		return null;
+	}
+	
+	public void sendCheck() {
+		this.check.run();
 	}
 	
 	private class Check extends Thread {
