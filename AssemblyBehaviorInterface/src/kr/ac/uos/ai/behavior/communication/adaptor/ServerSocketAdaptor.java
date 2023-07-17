@@ -35,7 +35,7 @@ public class ServerSocketAdaptor extends Thread implements Adaptor {
 	@Override
 	public void connect() {
 		try {
-			socket = new Socket(ip, port);
+			socket = server.accept();
 			printWriter = new PrintWriter(socket.getOutputStream());
 			bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		    this.start();
