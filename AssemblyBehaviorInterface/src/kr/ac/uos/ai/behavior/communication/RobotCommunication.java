@@ -1,6 +1,7 @@
 package kr.ac.uos.ai.behavior.communication;
 
 import kr.ac.uos.ai.behavior.BehaviorInterface;
+import kr.ac.uos.ai.behavior.communication.adaptor.ServerSocketAdaptor;
 import kr.ac.uos.ai.behavior.communication.adaptor.SocketAdaptor;
 import kr.ac.uos.ai.behavior.communication.message.robot.RobotMessage;
 import kr.ac.uos.ai.behavior.communication.message.robot.acknowledge.AckEndMessage;
@@ -16,9 +17,9 @@ public class RobotCommunication extends Communication{
 	private RobotID robotID;
 	private Thread checkRobotStatus;
 	
-	public RobotCommunication(BehaviorInterface bi, String robotID, String ip, int port) {
+	public RobotCommunication(BehaviorInterface bi, String robotID, int port) {
 		super(bi);
-		adaptor = new SocketAdaptor(this, ip, port);
+		adaptor = new ServerSocketAdaptor(this, port);
 		this.robotID = RobotID.valueOf(robotID);
 		checkRobotStatus = new CheckRobotStatus();
 	}

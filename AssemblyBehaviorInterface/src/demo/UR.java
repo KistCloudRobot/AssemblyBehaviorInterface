@@ -14,7 +14,7 @@ public class UR {
 		int epsonPort = Configuration.UR_ARM_PORT;
 		String epsonGripper = Configuration.UR_GRIPPER_PORT;
 		
-		BehaviorInterface bi = new RobotBehaviorInterface(brokerAddress, brokerPort, "UR", epsonAddress, epsonPort, epsonGripper);
+		BehaviorInterface bi = new RobotBehaviorInterface(brokerAddress, brokerPort, "UR", epsonPort, epsonGripper);
 		
 		ArbiAgentExecutor.execute(brokerAddress, brokerPort, Configuration.BEHAVIOR_INTERFACE_ADDRESS, bi, Configuration.BROKER_TYPE);
 	}

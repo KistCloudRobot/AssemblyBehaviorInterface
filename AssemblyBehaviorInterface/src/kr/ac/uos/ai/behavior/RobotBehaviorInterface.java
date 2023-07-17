@@ -16,10 +16,10 @@ public class RobotBehaviorInterface extends BehaviorInterface{
 	private GripperCommunication gripperCommunication;
 	
 	
-	public RobotBehaviorInterface(String brokerAddress, int brokerPort, String robotID, String robotAddress, int robotPort, String gripperPort) {
+	public RobotBehaviorInterface(String brokerAddress, int brokerPort, String robotID, int robotPort, String gripperPort) {
 		super(brokerAddress, brokerPort);
 		
-		robotCommunication = new RobotCommunication(this, robotID, robotAddress, robotPort);
+		robotCommunication = new RobotCommunication(this, robotID, robotPort);
 		gripperCommunication = new GripperCommunication(this, gripperPort);
 		
 		robotCommunication.connect();
@@ -122,7 +122,7 @@ public class RobotBehaviorInterface extends BehaviorInterface{
 	}
 	
 	public static void main(String[] args) {
-		BehaviorInterface bi = new RobotBehaviorInterface(Configuration.SERVER_ADDRESS, Configuration.SERVER_PORT_EPSON, "Epson", Configuration.EPSON_ARM_ADDRESS, Configuration.EPSON_ARM_PORT, Configuration.EPSON_GRIPPER_PORT);
+		BehaviorInterface bi = new RobotBehaviorInterface(Configuration.SERVER_ADDRESS, Configuration.SERVER_PORT_EPSON, "Epson", Configuration.EPSON_ARM_PORT, Configuration.EPSON_GRIPPER_PORT);
 		
 		ArbiAgentExecutor.execute(Configuration.SERVER_ADDRESS, Configuration.SERVER_PORT_EPSON, Configuration.BEHAVIOR_INTERFACE_ADDRESS, bi, Configuration.BROKER_TYPE);
 		String response = bi.onRequest("test", "(Grasp \"test1\" \"PCB\")");
