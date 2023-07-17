@@ -12,8 +12,6 @@ import kr.ac.uos.ai.behavior.communication.RobotCommunication;
 
 public class ServerSocketAdaptor extends Thread implements Adaptor {
 	
-	private String ip;
-	private int port;
 	private ServerSocket server;
 	private Socket socket;
 	private PrintWriter printWriter;
@@ -22,12 +20,10 @@ public class ServerSocketAdaptor extends Thread implements Adaptor {
 	
 	public ServerSocketAdaptor(RobotCommunication rc, int port) {
 		this.robotInterface = rc;
-		this.port = port;
 	
 		try {
 			this.server = new ServerSocket(port);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
