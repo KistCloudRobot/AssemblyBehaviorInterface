@@ -5,6 +5,7 @@ public enum ActionType {
 	
 	MoveToPosition,				MoveToTray,
 	Grasp,						Release,
+	Perceive,
 	RotateGripper,				
 	CheckRobotReady,
 	InitGripper,

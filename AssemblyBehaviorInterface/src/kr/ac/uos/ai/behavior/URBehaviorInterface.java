@@ -58,6 +58,11 @@ public class URBehaviorInterface extends BehaviorInterface{
 				int y = gl.getExpression(3).asValue().intValue();
 				response = robotCommunication.moveToTray(sender, actionID, robotCommand, x, y);
 				break;
+
+			case Perceive :
+				item = gl.getExpression(1).asValue().stringValue();
+				response = gripperCommunication.perceive(sender, actionID, item);
+				break;
 				
 			case Grasp :
 				item = gl.getExpression(1).asValue().stringValue();

@@ -3,6 +3,7 @@ package kr.ac.uos.ai.behavior.communication;
 import kr.ac.uos.ai.behavior.BehaviorInterface;
 import kr.ac.uos.ai.behavior.communication.message.serial.SerialMessage;
 import kr.ac.uos.ai.behavior.communication.message.serial.request.GripperInitialize;
+import kr.ac.uos.ai.behavior.communication.message.serial.request.Perceive;
 import kr.ac.uos.ai.behavior.communication.message.serial.request.Grasp;
 import kr.ac.uos.ai.behavior.communication.message.serial.request.Release;
 import kr.ac.uos.ai.behavior.communication.message.serial.request.Rotate;
@@ -60,7 +61,7 @@ public class GripperCommunication extends SerialCommunication {
 			this.sendCheck();
 			return waitingResponse.getResponse();
 		}
-		return null;
+		return "(fail \""+actionID+ "\")";
 	}
 	
 	public String release(String sender, String actionID, String object) {
@@ -70,7 +71,7 @@ public class GripperCommunication extends SerialCommunication {
 			this.sendCheck();
 			return waitingResponse.getResponse();
 		}
-		return null;
+		return "(fail \""+actionID+ "\")";
 	}
 
 	public String rotate(String sender, String actionID, String rotation) {
@@ -80,9 +81,17 @@ public class GripperCommunication extends SerialCommunication {
 			this.sendCheck();
 			return waitingResponse.getResponse();
 		}
-		return null;
+		return "(fail \""+actionID+ "\")";
 	}
 	
+	public String perceive(String sender, String actionID, String item) {
+		if (waitingResponse == null) {
+			this.waitingResponse = new Perceive(sender, actionID, item);
+			this.sendCheck();
+			return "(ok)";
+		}
+		return "(fail \""+actionID+ "\")";
+	}
 	
 	public void sendCheck() {
 		this.check.run();
