@@ -57,7 +57,9 @@ public class Grasp extends SerialMessage {
 				actionResult = GLFactory.newExpression(GLFactory.newValue("success"));
 			} else if (item == Item.Front && response[4].equals("1")) {
 				actionResult = GLFactory.newExpression(GLFactory.newValue("success"));
-			}	
+			} else {
+				actionResult = GLFactory.newExpression(GLFactory.newValue("fail"));
+			}
 			gl = GLFactory.newGL("ActionResult", actionID, actionResult);
 		}  else {
 			System.out.println("something is wrong " + responseMessage.toString());

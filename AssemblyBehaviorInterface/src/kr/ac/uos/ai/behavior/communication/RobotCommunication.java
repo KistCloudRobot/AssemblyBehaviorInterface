@@ -2,12 +2,7 @@ package kr.ac.uos.ai.behavior.communication;
 
 import kr.ac.uos.ai.behavior.BehaviorInterface;
 import kr.ac.uos.ai.behavior.communication.adaptor.ServerSocketAdaptor;
-import kr.ac.uos.ai.behavior.communication.adaptor.SocketAdaptor;
 import kr.ac.uos.ai.behavior.communication.message.robot.RobotMessage;
-import kr.ac.uos.ai.behavior.communication.message.robot.acknowledge.AckInitMessage;
-import kr.ac.uos.ai.behavior.communication.message.robot.acknowledge.AckEndMessage;
-import kr.ac.uos.ai.behavior.communication.message.robot.acknowledge.AckMessage;
-import kr.ac.uos.ai.behavior.communication.message.robot.acknowledge.RobotStatusMessage;
 import kr.ac.uos.ai.behavior.communication.message.robot.request.CheckRobotReady;
 import kr.ac.uos.ai.behavior.communication.message.robot.request.MoveToPosition;
 import kr.ac.uos.ai.behavior.communication.message.robot.request.MoveToTray;

@@ -6,11 +6,8 @@ import kr.ac.uos.ai.arbi.model.GeneralizedList;
 import kr.ac.uos.ai.arbi.model.parser.ParseException;
 import kr.ac.uos.ai.behavior.communication.EpsonCommunication;
 import kr.ac.uos.ai.behavior.communication.GripperCommunication;
-import kr.ac.uos.ai.behavior.communication.URCommunication;
 import kr.ac.uos.ai.behavior.communication.message.BehaviorMessage;
-import kr.ac.uos.ai.behavior.communication.message.robot.acknowledge.RobotStatusMessage;
 import kr.ac.uos.ai.behavior.communication.message.value.ActionType;
-import kr.ac.uos.ai.behavior.communication.message.value.RobotID;
 
 public class EpsonBehaviorInterface extends BehaviorInterface{
 
@@ -30,18 +27,13 @@ public class EpsonBehaviorInterface extends BehaviorInterface{
 //		assertInitialStatus(robotID);
 	}
 	
-	@Override
-	public void onStart() {
-		super.onStart();
-	}
-	
-	private void assertInitialStatus(String robotID) {
-		String position = "(robotPosition \"" + robotID + "\" \"" + robotID + "Home\")";
-		this.dataSource.assertFact(position);
-		String state = "(robotState \"" + robotID + "\" \"ready\")";
-		this.dataSource.assertFact(state);
-	}
-	
+//	private void assertInitialStatus(String robotID) {
+//		String position = "(robotPosition \"" + robotID + "\" \"" + robotID + "Home\")";
+//		this.dataSource.assertFact(position);
+//		String state = "(robotState \"" + robotID + "\" \"ready\")";
+//		this.dataSource.assertFact(state);
+//	}
+//	
 	@Override
 	public String onRequest(String sender, String request) {
 		System.out.println("[request]\t: " + request + " timestamp : " + System.currentTimeMillis());
@@ -106,12 +98,13 @@ public class EpsonBehaviorInterface extends BehaviorInterface{
 
 	@Override
 	public void onMessage(BehaviorMessage message) {
-		if (message instanceof RobotStatusMessage) {
-			RobotStatusMessage m = (RobotStatusMessage) message;
-			System.out.println("what?");
-			System.out.println(m);
+//		if (message instanceof RobotStatusMessage) {
+//			RobotStatusMessage m = (RobotStatusMessage) message;
+//			System.out.println("what?");
+//			System.out.println(m);
 //			this.onRobotStatus(m);
-		} else System.out.println("wrong message arrived : " + message.toString());
+//		} else 
+		System.out.println("Behavior onMessage\t: " + message.toString());
 		
 	}
 	

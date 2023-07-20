@@ -8,11 +8,9 @@ import kr.ac.uos.ai.behavior.communication.message.serial.request.Release;
 import kr.ac.uos.ai.behavior.communication.message.serial.request.Rotate;
 import kr.ac.uos.ai.behavior.communication.message.serial.response.GripperInitResponseMessage;
 import kr.ac.uos.ai.behavior.communication.message.serial.response.GripperResponseMessage;
-import kr.ac.uos.ai.behavior.communication.message.value.ActionType;
 
 public class GripperCommunication extends SerialCommunication {
 
-	private ActionType currentAction;
 	private SerialMessage waitingResponse;
 	private Thread check;
 	
@@ -29,7 +27,6 @@ public class GripperCommunication extends SerialCommunication {
 			behaviorInterface.sendMessage(waitingResponse.getSender(), waitingResponse.getResponse());
 			
 			this.waitingResponse = null;
-			this.currentAction = null;
 		} else if(this.waitingResponse != null && message.startsWith("<O>")) {
 			GripperInitResponseMessage m = new GripperInitResponseMessage(message);
 			this.waitingResponse.setResponse(m);
@@ -49,18 +46,16 @@ public class GripperCommunication extends SerialCommunication {
 	}
 	
 	public String initGripper(String sender, String actionID) {
-		if(waitingResponse == null && currentAction == null) {
+		if(waitingResponse == null) {
 			this.waitingResponse = new GripperInitialize(sender, actionID);
-			this.currentAction = waitingResponse.getActionType();
 			this.adaptor.send(waitingResponse.getMessage());
 		}
 		return "(ok)";
 	}
 	
 	public String grasp(String sender, String actionID, String object) {
-		if(waitingResponse == null && currentAction == null) {
+		if(waitingResponse == null ) {
 			this.waitingResponse = new Grasp(sender, actionID, object);
-			this.currentAction = waitingResponse.getActionType();
 			this.adaptor.send(waitingResponse.getMessage());
 			this.sendCheck();
 			return waitingResponse.getResponse();
@@ -69,9 +64,8 @@ public class GripperCommunication extends SerialCommunication {
 	}
 	
 	public String release(String sender, String actionID, String object) {
-		if(waitingResponse == null && currentAction == null) {
+		if(waitingResponse == null) {
 			this.waitingResponse = new Release(sender, actionID, object);
-			this.currentAction = waitingResponse.getActionType();
 			this.adaptor.send(waitingResponse.getMessage());
 			this.sendCheck();
 			return waitingResponse.getResponse();
@@ -80,9 +74,8 @@ public class GripperCommunication extends SerialCommunication {
 	}
 
 	public String rotate(String sender, String actionID, String rotation) {
-		if(waitingResponse == null && currentAction == null) {
+		if(waitingResponse == null) {
 			this.waitingResponse = new Rotate(sender, actionID, rotation);
-			this.currentAction = waitingResponse.getActionType();
 			this.adaptor.send(waitingResponse.getMessage());
 			this.sendCheck();
 			return waitingResponse.getResponse();

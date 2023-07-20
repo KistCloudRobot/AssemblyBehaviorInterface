@@ -5,7 +5,6 @@ import kr.ac.uos.ai.arbi.model.GLFactory;
 import kr.ac.uos.ai.arbi.model.GeneralizedList;
 import kr.ac.uos.ai.behavior.communication.message.serial.SerialMessage;
 import kr.ac.uos.ai.behavior.communication.message.serial.response.GripperInitResponseMessage;
-import kr.ac.uos.ai.behavior.communication.message.serial.response.GripperResponseMessage;
 import kr.ac.uos.ai.behavior.communication.message.value.ActionType;
 
 public class GripperInitialize extends SerialMessage {

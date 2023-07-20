@@ -66,8 +66,10 @@ public class URCommunication extends RobotCommunication{
 			 return result;
 		} else if (parsedMessage[len-1].equals("1")) {
 			result = new AckMessage(Integer.parseInt(parsedMessage[0]), Integer.parseInt(parsedMessage[len-1]));
+			return result;
 		} else if (parsedMessage[len-1].equals("3")){
 			result = new AckEndMessage(Integer.parseInt(parsedMessage[0]), Integer.parseInt(parsedMessage[len-1]));
+			return result;
 		} else System.out.println("wrong message : " + message); 
 		return result;
 	}

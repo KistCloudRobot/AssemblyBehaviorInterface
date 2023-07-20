@@ -1,6 +1,5 @@
 package kr.ac.uos.ai.behavior;
 
-import kr.ac.uos.ai.arbi.agent.ArbiAgentExecutor;
 import kr.ac.uos.ai.arbi.model.GLFactory;
 import kr.ac.uos.ai.arbi.model.GeneralizedList;
 import kr.ac.uos.ai.arbi.model.parser.ParseException;
@@ -9,7 +8,6 @@ import kr.ac.uos.ai.behavior.communication.URCommunication;
 import kr.ac.uos.ai.behavior.communication.message.BehaviorMessage;
 import kr.ac.uos.ai.behavior.communication.message.robot.acknowledge.RobotStatusMessage;
 import kr.ac.uos.ai.behavior.communication.message.value.ActionType;
-import kr.ac.uos.ai.behavior.communication.message.value.RobotID;
 
 public class URBehaviorInterface extends BehaviorInterface{
 
@@ -29,12 +27,12 @@ public class URBehaviorInterface extends BehaviorInterface{
 //		assertInitialStatus(robotID);
 	}
 
-	private void assertInitialStatus(String robotID) {
-		String position = "(robotPosition \"" + robotID + "\" \"" + robotID + "Home\")";
-		this.dataSource.assertFact(position);
-		String state = "(robotState \"" + robotID + "\" \"ready\")";
-		this.dataSource.assertFact(state);
-	}
+//	private void assertInitialStatus(String robotID) {
+//		String position = "(robotPosition \"" + robotID + "\" \"" + robotID + "Home\")";
+//		this.dataSource.assertFact(position);
+//		String state = "(robotState \"" + robotID + "\" \"ready\")";
+//		this.dataSource.assertFact(state);
+//	}
 	
 	@Override
 	public String onRequest(String sender, String request) {
@@ -94,31 +92,31 @@ public class URBehaviorInterface extends BehaviorInterface{
 //			RobotStatusMessage m = (RobotStatusMessage) message;
 //			this.onRobotStatus(m);
 //		} else 
-		System.out.println("wrong message arrived : " + message.toString());
+		System.out.println("Behavior onMessage\t: " + message.toString());
 		
 	}
 	
-	private void onRobotStatus(RobotStatusMessage message) {
-		String robotID = message.getRobotID().toString();
-		String robotState = message.getState().toString();
-		String robotPosition = message.getPosition().toString();
-		
-		this.updateRobotPosition(robotID, robotPosition);
-		this.updateRobotState(robotID, robotState);
-	}
-	
-	private void updateRobotPosition(String robotID, String position) {
-		String before = "(robotPosition \"" + robotID + "\" $oldPosition)";
-		String after = "(robotPosition \"" + robotID + "\" \"" + position + "\")";
-		String update = "(update " + before + " " + after + ")";
-		this.dataSource.updateFact(update);
-	}
-	
-	private void updateRobotState(String robotID, String status) {
-		String before = "(robotState \"" + robotID + "\" $oldStatus)";
-		String after = "(robotState \"" + robotID + "\" \"" + status + "\")";
-		String update = "(update " + before + " " + after + ")";
-		this.dataSource.updateFact(update);
-	}
+//	private void onRobotStatus(RobotStatusMessage message) {
+//		String robotID = message.getRobotID().toString();
+//		String robotState = message.getState().toString();
+//		String robotPosition = message.getPosition().toString();
+//		
+//		this.updateRobotPosition(robotID, robotPosition);
+//		this.updateRobotState(robotID, robotState);
+//	}
+//	
+//	private void updateRobotPosition(String robotID, String position) {
+//		String before = "(robotPosition \"" + robotID + "\" $oldPosition)";
+//		String after = "(robotPosition \"" + robotID + "\" \"" + position + "\")";
+//		String update = "(update " + before + " " + after + ")";
+//		this.dataSource.updateFact(update);
+//	}
+//	
+//	private void updateRobotState(String robotID, String status) {
+//		String before = "(robotState \"" + robotID + "\" $oldStatus)";
+//		String after = "(robotState \"" + robotID + "\" \"" + status + "\")";
+//		String update = "(update " + before + " " + after + ")";
+//		this.dataSource.updateFact(update);
+//	}
 
 }

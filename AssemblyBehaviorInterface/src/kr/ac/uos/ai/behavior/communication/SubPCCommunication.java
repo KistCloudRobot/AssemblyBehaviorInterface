@@ -6,11 +6,9 @@ import kr.ac.uos.ai.behavior.communication.message.serial.request.CheckLabel;
 import kr.ac.uos.ai.behavior.communication.message.serial.request.RiseGuideJig;
 import kr.ac.uos.ai.behavior.communication.message.serial.request.VisionInspect;
 import kr.ac.uos.ai.behavior.communication.message.serial.response.TrayResponseMessage;
-import kr.ac.uos.ai.behavior.communication.message.value.ActionType;
 
 public class SubPCCommunication extends SerialCommunication {
 
-	private ActionType currentAction;
 	private SerialMessage waitingResponse;
 	
 	public SubPCCommunication(BehaviorInterface bi, String portName) {
@@ -25,7 +23,6 @@ public class SubPCCommunication extends SerialCommunication {
 			behaviorInterface.sendMessage(waitingResponse.getSender(), waitingResponse.getResponse());
 			
 			this.waitingResponse = null;
-			this.currentAction = null;
 		} else System.out.println("wrong message from tray or sub : " + message);
 	}
 	
@@ -35,9 +32,8 @@ public class SubPCCommunication extends SerialCommunication {
 	}
 	
 	public String riseGuideJig(String sender, String actionID) {
-		if(waitingResponse == null && currentAction == null) {
+		if(waitingResponse == null) {
 			this.waitingResponse = new RiseGuideJig(sender, actionID);
-			this.currentAction = waitingResponse.getActionType();
 			this.adaptor.send(waitingResponse.getMessage());
 			return "(ok)";
 		}
@@ -46,9 +42,8 @@ public class SubPCCommunication extends SerialCommunication {
 	}
 
 	public String visionInspect(String sender, String actionID) {
-		if(waitingResponse == null && currentAction == null) {
+		if(waitingResponse == null) {
 			this.waitingResponse = new VisionInspect(sender, actionID);
-			this.currentAction = waitingResponse.getActionType();
 			this.adaptor.send(waitingResponse.getMessage());
 			return "(ok)";
 		}
@@ -57,13 +52,12 @@ public class SubPCCommunication extends SerialCommunication {
 	}
 
 	public String checkLabel(String sender, String actionID) {
-		if(waitingResponse == null && currentAction == null) {
+		if(waitingResponse == null) {
 			this.waitingResponse = new CheckLabel(sender, actionID);
-			this.currentAction = waitingResponse.getActionType();
 			this.adaptor.send(waitingResponse.getMessage());
 			return "(ok)";
 		}
 		
 		return "(fail)";
 	}
-	}
+}

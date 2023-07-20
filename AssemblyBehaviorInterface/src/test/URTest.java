@@ -16,9 +16,7 @@ public class URTest extends ArbiAgent{
 		
 		ArbiAgentExecutor.execute(Configuration.SERVER_ADDRESS, Configuration.SERVER_PORT_UR, "agent://www.arbi.com/TaskManager", test, Configuration.BROKER_TYPE);
 		
-		String response = "";
 		String request = "";
-		String receiver = Configuration.BEHAVIOR_INTERFACE_ADDRESS;
 
 		sc.nextLine();
 		
@@ -30,53 +28,56 @@ public class URTest extends ArbiAgent{
 		test.testMessage(request);
 		sc.nextLine();
 
-		request = "(MoveToPosition \"test1\" \"URHome\")";
+		request = "(MoveToPosition \"test2\" \"URHome\")";
 		test.testMessage(request);
 		sc.nextLine();
 		
-		request = "(MoveToTray \"test1\" \"Lens\" 1 1)";
+		request = "(MoveToTray \"test3\" \"Lens\" 1 1)";
 		test.testMessage(request);
 		sc.nextLine();
 		
-		request = "(Grasp \"test1\" \"Lens\")";
+		request = "(Grasp \"test4\" \"Lens\")";
 		test.testMessage(request);
 		sc.nextLine();
 		
-		request = "(MoveToTray \"test1\" \"Front\" 1 1)";
+		request = "(MoveToTray \"test5\" \"Front\" 1 1)";
 		test.testMessage(request);
 		sc.nextLine();
 		
-		request = "(Grasp \"test1\" \"Front\")";
+		request = "(Grasp \"test6\" \"Front\")";
 		test.testMessage(request);
 		sc.nextLine();
 		
 		
-		request = "(MoveToPosition \"test1\" \"URPutWait\")";
+		request = "(MoveToPosition \"test7\" \"URPutWait\")";
 		test.testMessage(request);
 		sc.nextLine();
 		
-		request = "(MoveToPosition \"test1\" \"LensPut\")";
+		request = "(MoveToPosition \"test8\" \"LensPut\")";
 		test.testMessage(request);
 		sc.nextLine();
 
-		request = "(Release \"test1\" \"Lens\")";
+		request = "(Release \"test9\" \"Lens\")";
 		test.testMessage(request);
 		sc.nextLine();
 		
-		request = "(MoveToPosition \"test1\" \"URPutWait\")";
+		request = "(MoveToPosition \"test10\" \"URPutWait\")";
 		test.testMessage(request);
 		sc.nextLine();
-		
+
+		request = "(MoveToPosition \"test11\" \"FrontPut\")";
+		test.testMessage(request);
+		sc.nextLine();
 				
-		request = "(Release \"test1\" \"Front\")";
+		request = "(Release \"test12\" \"Front\")";
 		test.testMessage(request);
 		sc.nextLine();
 		
-		request = "(MoveToPosition \"test1\" \"URPutWait\")";
+		request = "(MoveToPosition \"test13\" \"URPutWait\")";
 		test.testMessage(request);
 		sc.nextLine(); 
 
-		request = "(MoveToPosition \"test1\" \"URHome\")";
+		request = "(MoveToPosition \"test14\" \"URHome\")";
 		test.testMessage(request);
 		sc.nextLine();
 	
@@ -84,8 +85,8 @@ public class URTest extends ArbiAgent{
 	
 	@Override
 	public void onData(String sender, String data) {
-		System.out.println("OnDat sender \t: " + sender);
-		System.out.println("OnDat data \t: " + data);
+		System.out.println("OnData sender \t: " + sender);
+		System.out.println("OnData data \t: " + data);
 	}
 	
 	
@@ -97,7 +98,7 @@ public class URTest extends ArbiAgent{
 	
 	public void log(String request, String response) {
 
-		System.out.println("request\t : " + request);
-		System.out.println("response\t : " + response);
+		System.out.println("request\t: " + request);
+		System.out.println("response\t: " + response);
 	}
 }

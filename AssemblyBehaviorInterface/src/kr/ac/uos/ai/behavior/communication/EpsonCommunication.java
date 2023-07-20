@@ -5,7 +5,6 @@ import kr.ac.uos.ai.behavior.communication.message.robot.acknowledge.AckInitMess
 import kr.ac.uos.ai.behavior.communication.message.robot.acknowledge.AckEndMessage;
 import kr.ac.uos.ai.behavior.communication.message.robot.acknowledge.AckMessage;
 import kr.ac.uos.ai.behavior.communication.message.robot.acknowledge.RobotStatusMessage;
-import kr.ac.uos.ai.behavior.communication.message.value.RobotID;
 
 public class EpsonCommunication extends RobotCommunication{
 
@@ -37,6 +36,9 @@ public class EpsonCommunication extends RobotCommunication{
 			}
 			
 			messageBuilder.setLength(0);
+		} else if (messageBuilder.toString().contains("EPSON")) {
+			System.out.println("EpsonComm onMessage \t: Epson connected " + messageBuilder.toString());
+			messageBuilder.setLength(0);
 		} else {
 			System.out.println("EpsonComm onMessage \t: message is not complete :" + messageBuilder.toString());
 			return;
@@ -60,17 +62,13 @@ public class EpsonCommunication extends RobotCommunication{
 			 return result;
 		} else if (serialMessage[len-1].equals("1")) {
 			result = new AckMessage(Integer.parseInt(serialMessage[0]), Integer.parseInt(serialMessage[len-1]));
+			return result;
 		} else if (serialMessage[len-1].equals("3")){
 			result = new AckEndMessage(Integer.parseInt(serialMessage[0]), Integer.parseInt(serialMessage[len-1]));
+			return result;
 		} else System.out.println("wrong socket message : " + message); 
 		return result;
 	}
-
-
-	public RobotID getRobotID() {
-		return robotID;
-	}
-
 	
 	public static void main(String[] args) {
 		EpsonCommunication epson = new EpsonCommunication(null, "Epson", 30000);

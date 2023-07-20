@@ -20,9 +20,7 @@ public class EpsonTest extends ArbiAgent {
 		
 		ArbiAgentExecutor.execute(Configuration.SERVER_ADDRESS, Configuration.SERVER_PORT_EPSON, "agent://www.arbi.com/TaskManager", test, Configuration.BROKER_TYPE);
 		
-		String response = "";
 		String request = "";
-		String receiver = Configuration.BEHAVIOR_INTERFACE_ADDRESS;
 		
 		sc.nextLine();
 		
@@ -34,64 +32,64 @@ public class EpsonTest extends ArbiAgent {
 		test.testMessage(request);
 		sc.nextLine();
 		
-		request = "(MoveToTray \"test1\" \"PCB\" 1 1)";
+		request = "(MoveToTray \"test2\" \"PCB\" 1 1)";
 		test.testMessage(request);
 		sc.nextLine();
 		
-		request = "(Grasp \"test1\" \"PCB\")";
+		request = "(Grasp \"test3\" \"PCB\")";
 		test.testMessage(request);
 		sc.nextLine();
 		
-		request = "(MoveToTray \"test1\" \"Housing\" 1 1)";
+		request = "(MoveToTray \"test4\" \"Housing\" 1 1)";
 		test.testMessage(request);
 		sc.nextLine();
 		
-		request = "(Grasp \"test1\" \"Housing\")";
+		request = "(Grasp \"test5\" \"Housing\")";
 		test.testMessage(request);
 		sc.nextLine();
 		
 
-		request = "(MoveToPosition \"test1\" \"HousingLabel\")";
+		request = "(MoveToPosition \"test6\" \"HousingLabel\")";
 		test.testMessage(request);
 		sc.nextLine();
 		
-		request = "(MoveToPosition \"test1\" \"EpsonPutWait\")";
+		request = "(MoveToPosition \"test7\" \"EpsonPutWait\")";
 		test.testMessage(request);
 		sc.nextLine();
 		
-		request = "(MoveToPosition \"test1\" \"HousingPut\")";
+		request = "(MoveToPosition \"test8\" \"HousingPut\")";
 		test.testMessage(request);
 		sc.nextLine();
 
-		request = "(Release \"test1\" \"Housing\")";
+		request = "(Release \"test9\" \"Housing\")";
 		test.testMessage(request);
 		sc.nextLine();
 		
-		request = "(MoveToPosition \"test1\" \"EpsonPutWait\")";
+		request = "(MoveToPosition \"test10\" \"EpsonPutWait\")";
 		test.testMessage(request);
 		sc.nextLine();
 		
-		request = "(Rotate \"test1\" \"On\")";
+		request = "(Rotate \"test11\" \"On\")";
 		test.testMessage(request);
 		sc.nextLine();
 		
-		request = "(MoveToPosition \"test1\" \"PCBPut\")";
+		request = "(MoveToPosition \"test12\" \"PCBPut\")";
 		test.testMessage(request);
 		sc.nextLine();
 		
-		request = "(Release \"test1\" \"PCB\")";
+		request = "(Release \"test13\" \"PCB\")";
 		test.testMessage(request);
 		sc.nextLine();
 		
-		request = "(MoveToPosition \"test1\" \"EpsonPutWait\")";
+		request = "(MoveToPosition \"test14\" \"EpsonPutWait\")";
 		test.testMessage(request);
 		sc.nextLine(); 
 
-		request = "(Rotate \"test1\" \"Off\")";
+		request = "(Rotate \"test15\" \"Off\")";
 		test.testMessage(request);
 		sc.nextLine();
 	
-		request = "(MoveToPosition \"test1\" \"EpsonHome\")";
+		request = "(MoveToPosition \"test16\" \"EpsonHome\")";
 		test.testMessage(request);
 		sc.nextLine();
 		
@@ -111,7 +109,7 @@ public class EpsonTest extends ArbiAgent {
 	
 	public void log(String request, String response) {
 
-		System.out.println("request\t : " + request);
-		System.out.println("response\t : " + response);
+		System.out.println("request\t: " + request);
+		System.out.println("response\t: " + response);
 	}
 }

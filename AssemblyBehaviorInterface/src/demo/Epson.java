@@ -4,7 +4,6 @@ import kr.ac.uos.ai.arbi.agent.ArbiAgentExecutor;
 import kr.ac.uos.ai.behavior.BehaviorInterface;
 import kr.ac.uos.ai.behavior.Configuration;
 import kr.ac.uos.ai.behavior.EpsonBehaviorInterface;
-import kr.ac.uos.ai.behavior.URBehaviorInterface;
 
 public class Epson {
 

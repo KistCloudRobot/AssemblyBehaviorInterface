@@ -9,11 +9,9 @@ import kr.ac.uos.ai.behavior.communication.message.serial.request.RotateToLabelP
 import kr.ac.uos.ai.behavior.communication.message.serial.request.StartVacuum;
 import kr.ac.uos.ai.behavior.communication.message.serial.request.StopVacuum;
 import kr.ac.uos.ai.behavior.communication.message.serial.response.TrayResponseMessage;
-import kr.ac.uos.ai.behavior.communication.message.value.ActionType;
 
 public class TrayCommunication extends SerialCommunication {
 
-	private ActionType currentAction;
 	private SerialMessage waitingResponse;
 	
 	public TrayCommunication(BehaviorInterface bi, String portName) {
@@ -28,7 +26,6 @@ public class TrayCommunication extends SerialCommunication {
 			behaviorInterface.sendMessage(waitingResponse.getSender(), waitingResponse.getResponse());
 			
 			this.waitingResponse = null;
-			this.currentAction = null;
 		} else System.out.println("wrong message from tray or sub : " + message);
 	}
 	
@@ -38,9 +35,8 @@ public class TrayCommunication extends SerialCommunication {
 	}
 	
 	public String rotateToLabelPosition(String sender, String actionID) {
-		if(waitingResponse == null && currentAction == null) {
+		if(waitingResponse == null) {
 			this.waitingResponse = new RotateToLabelPosition(sender, actionID);
-			this.currentAction = waitingResponse.getActionType();
 			this.adaptor.send(waitingResponse.getMessage());
 			return "(ok)";
 		}
@@ -49,9 +45,8 @@ public class TrayCommunication extends SerialCommunication {
 	}
 
 	public String rotateToAttachPosition(String sender, String actionID) {
-		if(waitingResponse == null && currentAction == null) {
+		if(waitingResponse == null) {
 			this.waitingResponse = new RotateToAttachPosition(sender, actionID);
-			this.currentAction = waitingResponse.getActionType();
 			this.adaptor.send(waitingResponse.getMessage());
 			return "(ok)";
 		}
@@ -60,9 +55,8 @@ public class TrayCommunication extends SerialCommunication {
 	}
 
 	public String startVacuum(String sender, String actionID) {
-		if(waitingResponse == null && currentAction == null) {
+		if(waitingResponse == null) {
 			this.waitingResponse = new StartVacuum(sender, actionID);
-			this.currentAction = waitingResponse.getActionType();
 			this.adaptor.send(waitingResponse.getMessage());
 			return "(ok)";
 		}
@@ -71,9 +65,8 @@ public class TrayCommunication extends SerialCommunication {
 	}
 	
 	public String stopVacuum(String sender, String actionID) {
-		if(waitingResponse == null && currentAction == null) {
+		if(waitingResponse == null) {
 			this.waitingResponse = new StopVacuum(sender, actionID);
-			this.currentAction = waitingResponse.getActionType();
 			this.adaptor.send(waitingResponse.getMessage());
 			return "(ok)";
 		}
@@ -82,9 +75,8 @@ public class TrayCommunication extends SerialCommunication {
 	}
 	
 	public String liftUp(String sender, String actionID) {
-		if(waitingResponse == null && currentAction == null) {
+		if(waitingResponse == null) {
 			this.waitingResponse = new LiftUp(sender, actionID);
-			this.currentAction = waitingResponse.getActionType();
 			this.adaptor.send(waitingResponse.getMessage());
 			return "(ok)";
 		}
@@ -93,9 +85,8 @@ public class TrayCommunication extends SerialCommunication {
 	}
 	
 	public String liftDown(String sender, String actionID) {
-		if(waitingResponse == null && currentAction == null) {
+		if(waitingResponse == null) {
 			this.waitingResponse = new LiftDown(sender, actionID);
-			this.currentAction = waitingResponse.getActionType();
 			this.adaptor.send(waitingResponse.getMessage());
 			return "(ok)";
 		}

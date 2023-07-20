@@ -4,7 +4,6 @@ import kr.ac.uos.ai.arbi.model.Expression;
 import kr.ac.uos.ai.arbi.model.GLFactory;
 import kr.ac.uos.ai.arbi.model.GeneralizedList;
 import kr.ac.uos.ai.behavior.communication.message.robot.RobotMessage;
-import kr.ac.uos.ai.behavior.communication.message.robot.acknowledge.AckInitMessage;
 import kr.ac.uos.ai.behavior.communication.message.robot.acknowledge.RobotStatusMessage;
 import kr.ac.uos.ai.behavior.communication.message.value.ActionType;
 import kr.ac.uos.ai.behavior.communication.message.value.RobotID;
