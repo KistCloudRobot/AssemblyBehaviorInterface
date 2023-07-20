@@ -1,9 +1,9 @@
 package kr.ac.uos.ai.behavior.communication;
 
 import kr.ac.uos.ai.behavior.BehaviorInterface;
-import kr.ac.uos.ai.behavior.communication.adaptor.ServerSocketAdaptor;
 import kr.ac.uos.ai.behavior.communication.adaptor.SocketAdaptor;
 import kr.ac.uos.ai.behavior.communication.message.robot.RobotMessage;
+import kr.ac.uos.ai.behavior.communication.message.robot.acknowledge.AckControllerInitMessage;
 import kr.ac.uos.ai.behavior.communication.message.robot.acknowledge.AckEndMessage;
 import kr.ac.uos.ai.behavior.communication.message.robot.acknowledge.AckMessage;
 import kr.ac.uos.ai.behavior.communication.message.robot.acknowledge.RobotStatusMessage;
@@ -15,13 +15,13 @@ public class RobotCommunication extends Communication{
 
 	private RobotMessage waitingResponse;
 	private RobotID robotID;
-	private Thread checkRobotStatus;
+//	private Thread checkRobotStatus;
 	
-	public RobotCommunication(BehaviorInterface bi, String robotID, int port) {
+	public RobotCommunication(BehaviorInterface bi, String robotID, String ip,int port) {
 		super(bi);
-		adaptor = new ServerSocketAdaptor(this, port);
+		adaptor = new SocketAdaptor(this, ip, port);
 		this.robotID = RobotID.valueOf(robotID);
-		checkRobotStatus = new CheckRobotStatus();
+//		checkRobotStatus = new CheckRobotStatus();
 	}
 	
 	public void onMessage(String message) {
@@ -44,6 +44,10 @@ public class RobotCommunication extends Communication{
 	
 	private AckMessage parseMessage(String message) {
 		AckMessage result = null;
+		if (message.startsWith("<")) {
+			result = new AckControllerInitMessage(message);
+			return result;
+		}
 		String[] parsedMessage = message.split(",");
 		int len = parsedMessage.length;
 		if (parsedMessage[len-1].equals("1")) {
@@ -78,27 +82,27 @@ public class RobotCommunication extends Communication{
 		}
 	}
 		
-	public void startCheckRobotStatus() {
-		this.checkRobotStatus.start();
-	}
+//	public void startCheckRobotStatus() {
+//		this.checkRobotStatus.start();
+//	}
 	
 	public RobotID getRobotID() {
 		return robotID;
 	}
 	
-	private class CheckRobotStatus extends Thread {
-		@Override
-		public void run() {
-			while(true) {
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				adaptor.send("91,0,0," + robotID.getValue());
-			}
-		}
-	}
+//	private class CheckRobotStatus extends Thread {
+//		@Override
+//		public void run() {
+//			while(true) {
+//				try {
+//					Thread.sleep(1000);
+//				} catch (InterruptedException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//				adaptor.send("91,0,0," + robotID.getValue());
+//			}
+//		}
+//	}
 	
 }

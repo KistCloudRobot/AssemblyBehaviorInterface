@@ -8,10 +8,10 @@ import kr.ac.uos.ai.behavior.communication.message.serial.response.GripperInitRe
 import kr.ac.uos.ai.behavior.communication.message.serial.response.GripperResponseMessage;
 import kr.ac.uos.ai.behavior.communication.message.value.ActionType;
 
-public class EpsonGripperInitialize extends SerialMessage {
+public class URGripperInitialize extends SerialMessage {
 
-	public EpsonGripperInitialize(String sender, String actionID) {
-		super(sender, ActionType.InitGripper,actionID);
+	public URGripperInitialize(String sender, String actionID) {
+		super(sender, ActionType.InitURGripper,actionID);
 	}
 	
 	public String getMessage() {

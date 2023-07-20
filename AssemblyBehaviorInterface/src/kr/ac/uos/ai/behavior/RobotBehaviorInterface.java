@@ -17,27 +17,21 @@ public class RobotBehaviorInterface extends BehaviorInterface{
 	private GripperCommunication gripperCommunication;
 	
 	
-	public RobotBehaviorInterface(String brokerAddress, int brokerPort, String robotID, int robotPort, String gripperPort) {
+	public RobotBehaviorInterface(String brokerAddress, int brokerPort, String robotID, String robotIP,int robotPort, String gripperPort) {
 		super(brokerAddress, brokerPort);
 		
-		robotCommunication = new RobotCommunication(this, robotID, robotPort);
+		robotCommunication = new RobotCommunication(this, robotID, robotIP, robotPort);
 		gripperCommunication = new GripperCommunication(this, gripperPort);
 		
 		robotCommunication.connect();
 		gripperCommunication.connect();
 		
-		assertInitialStatus(robotID);
+//		assertInitialStatus(robotID);
 	}
 	
 	@Override
 	public void onStart() {
 		super.onStart();
-		
-		if (robotCommunication.getRobotID().equals(RobotID.Epson)) {
-			gripperCommunication.epsonGripperInitialize(Configuration.BEHAVIOR_INTERFACE_ADDRESS, "init");
-		} else if (robotCommunication.getRobotID().equals(RobotID.UR)) {
-			gripperCommunication.sendCheck();
-		}
 	}
 	
 	private void assertInitialStatus(String robotID) {
@@ -88,9 +82,10 @@ public class RobotBehaviorInterface extends BehaviorInterface{
 				response = gripperCommunication.rotate(sender, actionID, rotation);
 				break;
 							
-			case EpsonGripperInitialize :
-				response = gripperCommunication.epsonGripperInitialize(sender, actionID);
+			case InitGripper :
+				response = gripperCommunication.initGripper(sender, actionID);
 				break;
+				
 			default :
 				response = "(wrongRequest)";
 				break;
@@ -137,7 +132,7 @@ public class RobotBehaviorInterface extends BehaviorInterface{
 	}
 	
 	public static void main(String[] args) {
-		BehaviorInterface bi = new RobotBehaviorInterface(Configuration.SERVER_ADDRESS, Configuration.SERVER_PORT_EPSON, "Epson", Configuration.EPSON_ARM_PORT, Configuration.EPSON_GRIPPER_PORT);
+		BehaviorInterface bi = new RobotBehaviorInterface(Configuration.SERVER_ADDRESS, Configuration.SERVER_PORT_EPSON, "Epson", Configuration.EPSON_ARM_ADDRESS,Configuration.EPSON_ARM_PORT, Configuration.EPSON_GRIPPER_PORT);
 		
 		ArbiAgentExecutor.execute(Configuration.SERVER_ADDRESS, Configuration.SERVER_PORT_EPSON, Configuration.BEHAVIOR_INTERFACE_ADDRESS, bi, Configuration.BROKER_TYPE);
 		String response = bi.onRequest("test", "(Grasp \"test1\" \"PCB\")");

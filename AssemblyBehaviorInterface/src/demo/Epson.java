@@ -14,8 +14,9 @@ public class Epson {
 		int epsonPort = Configuration.EPSON_ARM_PORT;
 		String epsonGripper = Configuration.EPSON_GRIPPER_PORT;
 		
-		BehaviorInterface bi = new RobotBehaviorInterface(brokerAddress, brokerPort, "Epson", epsonPort, epsonGripper);
+		BehaviorInterface bi = new RobotBehaviorInterface(brokerAddress, brokerPort, "Epson", epsonAddress, epsonPort, epsonGripper);
 		
 		ArbiAgentExecutor.execute(brokerAddress, brokerPort, Configuration.BEHAVIOR_INTERFACE_ADDRESS, bi, Configuration.BROKER_TYPE);
+		
 	}
 }
