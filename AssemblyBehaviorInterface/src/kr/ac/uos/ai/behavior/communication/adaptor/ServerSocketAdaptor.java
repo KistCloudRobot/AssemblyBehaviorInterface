@@ -2,6 +2,7 @@ package kr.ac.uos.ai.behavior.communication.adaptor;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -22,6 +23,7 @@ public class ServerSocketAdaptor extends Thread implements Adaptor {
 	private Socket socket;
 	private PrintWriter printWriter;
 	private BufferedReader bufferedReader;
+	private DataInputStream dataInputStream;
 	private InputStream	inputStream;
 	private ByteArrayOutputStream messageBuffer;
 	private Communication robotCommunication;
@@ -45,6 +47,7 @@ public class ServerSocketAdaptor extends Thread implements Adaptor {
 			printWriter = new PrintWriter(socket.getOutputStream());
 			inputStream = socket.getInputStream();
 			messageBuffer = new ByteArrayOutputStream();
+//			dataInputStream = new DataInputStream(socket.getInputStream());
 //			bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		    this.start();
 		    System.out.println("connected");
@@ -57,9 +60,32 @@ public class ServerSocketAdaptor extends Thread implements Adaptor {
 	}
 	
 	public void run() {
-		byte[] buffer = new byte[1024];
-		int bytesRead;
 		try {
+
+			byte[] buffer = new byte[1024];
+			int bytesRead;
+			
+//			while (true) {
+//			    byte[] buffer = new byte[1024];
+//			    int bytesRead = dataInputStream.read(buffer);
+//			    if (bytesRead == -1) {
+//			        break;
+//			    }
+//
+//			    String message = new String(buffer, 0, bytesRead);
+//			    String[] messages = message.split("\r\n");
+//			    for (String msg : messages) {
+//			        handleMessage(msg);
+//			    }
+//			}
+//			
+			
+//			while(true) {
+//				String message = dataInputStream.readUTF();
+//				System.out.println("dataInputStream \t :" + message);
+//				handleMessage(message);
+//			}
+			
 			while ((bytesRead = inputStream.read(buffer)) != -1) {
 			    messageBuffer.write(buffer, 0, bytesRead);
 
@@ -78,7 +104,7 @@ public class ServerSocketAdaptor extends Thread implements Adaptor {
 	}
 	
 	private void handleMessage(String message) {
-//		System.out.println("handle Message \t: " + message);
+		System.out.println("handle robotArm Message \t: " + message);
 		robotCommunication.onMessage(message);
 	}
 
