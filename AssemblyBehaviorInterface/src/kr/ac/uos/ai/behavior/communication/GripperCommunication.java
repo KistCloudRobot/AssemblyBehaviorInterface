@@ -2,11 +2,10 @@ package kr.ac.uos.ai.behavior.communication;
 
 import kr.ac.uos.ai.behavior.BehaviorInterface;
 import kr.ac.uos.ai.behavior.communication.message.serial.SerialMessage;
-import kr.ac.uos.ai.behavior.communication.message.serial.request.EpsonGripperInitialize;
+import kr.ac.uos.ai.behavior.communication.message.serial.request.GripperInitialize;
 import kr.ac.uos.ai.behavior.communication.message.serial.request.Grasp;
 import kr.ac.uos.ai.behavior.communication.message.serial.request.Release;
 import kr.ac.uos.ai.behavior.communication.message.serial.request.Rotate;
-import kr.ac.uos.ai.behavior.communication.message.serial.request.URGripperInitialize;
 import kr.ac.uos.ai.behavior.communication.message.serial.response.GripperInitResponseMessage;
 import kr.ac.uos.ai.behavior.communication.message.serial.response.GripperResponseMessage;
 import kr.ac.uos.ai.behavior.communication.message.value.ActionType;
@@ -51,7 +50,7 @@ public class GripperCommunication extends SerialCommunication {
 	
 	public String initGripper(String sender, String actionID) {
 		if(waitingResponse == null && currentAction == null) {
-			this.waitingResponse = new EpsonGripperInitialize(sender, actionID);
+			this.waitingResponse = new GripperInitialize(sender, actionID);
 			this.currentAction = waitingResponse.getActionType();
 			this.adaptor.send(waitingResponse.getMessage());
 		}
@@ -100,7 +99,7 @@ public class GripperCommunication extends SerialCommunication {
 		@Override
 		public void run() {
 			try {
-				Thread.sleep(2000);
+				Thread.sleep(3000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

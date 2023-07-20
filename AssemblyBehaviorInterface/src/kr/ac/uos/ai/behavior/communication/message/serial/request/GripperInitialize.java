@@ -8,9 +8,9 @@ import kr.ac.uos.ai.behavior.communication.message.serial.response.GripperInitRe
 import kr.ac.uos.ai.behavior.communication.message.serial.response.GripperResponseMessage;
 import kr.ac.uos.ai.behavior.communication.message.value.ActionType;
 
-public class EpsonGripperInitialize extends SerialMessage {
+public class GripperInitialize extends SerialMessage {
 
-	public EpsonGripperInitialize(String sender, String actionID) {
+	public GripperInitialize(String sender, String actionID) {
 		super(sender, ActionType.InitGripper,actionID);
 	}
 	

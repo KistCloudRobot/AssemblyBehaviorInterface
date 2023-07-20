@@ -6,17 +6,14 @@ public enum ActionType {
 	MoveToPosition,				MoveToTray,
 	Grasp,						Release,
 	RotateGripper,				
-	
-	StartEpsonController,
+	CheckRobotReady,
 	InitGripper,
-	StartURController,
-	InitURGripper,
-	
+		
 	RiseGuideJig,				VisionInspect,
 	CheckLabel,
 	
 	RotateToLabelPosition,		RotateToAttachPosition,
 	StartVacuum,				StopVacuum,
-	LiftUp,						LiftDown;
+	LiftUp,						LiftDown; 
 	
 }

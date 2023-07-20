@@ -8,7 +8,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import kr.ac.uos.ai.behavior.communication.RobotCommunication;
+import kr.ac.uos.ai.behavior.communication.Communication;
+import kr.ac.uos.ai.behavior.communication.URCommunication;
 
 public class ServerSocketAdaptor extends Thread implements Adaptor {
 	
@@ -16,9 +17,9 @@ public class ServerSocketAdaptor extends Thread implements Adaptor {
 	private Socket socket;
 	private PrintWriter printWriter;
 	private BufferedReader bufferedReader;
-	private RobotCommunication robotInterface;
+	private Communication robotInterface;
 	
-	public ServerSocketAdaptor(RobotCommunication rc, int port) {
+	public ServerSocketAdaptor(Communication rc, int port) {
 		this.robotInterface = rc;
 	
 		try {

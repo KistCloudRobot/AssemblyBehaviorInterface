@@ -19,21 +19,14 @@ public class URTest extends ArbiAgent{
 		String response = "";
 		String request = "";
 		String receiver = Configuration.BEHAVIOR_INTERFACE_ADDRESS;
-		
-		request = "(StartURController \"test1\")";
-		request = "(InitURGripper \"test2\")";
-		request = "(MoveToPosition \"test1\" \"URHome\")";
-		request = "(MoveToTray \"test1\" \"Housing\" 1 1)";
-		request = "(Grasp \"test1\" \"Housing\")";
-		request = "(Release \"test1\" \"Housing\")";
-		response = test.request(receiver, request);
-	
-		
-		request = "(StartURController \"test1\")";
-		test.testMessage(request);
+
 		sc.nextLine();
 		
 		request = "(InitGripper \"test2\")";
+		test.testMessage(request);
+		sc.nextLine();
+
+		request = "(CheckRobotReady \"test1\")";
 		test.testMessage(request);
 		sc.nextLine();
 
@@ -87,6 +80,12 @@ public class URTest extends ArbiAgent{
 		test.testMessage(request);
 		sc.nextLine();
 	
+	}
+	
+	@Override
+	public void onData(String sender, String data) {
+		System.out.println("OnDat sender \t: " + sender);
+		System.out.println("OnDat data \t: " + data);
 	}
 	
 	

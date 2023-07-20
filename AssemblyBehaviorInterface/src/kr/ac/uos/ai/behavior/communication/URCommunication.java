@@ -1,36 +1,41 @@
 package kr.ac.uos.ai.behavior.communication;
 
 import kr.ac.uos.ai.behavior.BehaviorInterface;
+import kr.ac.uos.ai.behavior.communication.adaptor.Adaptor;
+import kr.ac.uos.ai.behavior.communication.adaptor.ServerSocketAdaptor;
 import kr.ac.uos.ai.behavior.communication.adaptor.SocketAdaptor;
 import kr.ac.uos.ai.behavior.communication.message.robot.RobotMessage;
 import kr.ac.uos.ai.behavior.communication.message.robot.acknowledge.AckControllerInitMessage;
 import kr.ac.uos.ai.behavior.communication.message.robot.acknowledge.AckEndMessage;
 import kr.ac.uos.ai.behavior.communication.message.robot.acknowledge.AckMessage;
 import kr.ac.uos.ai.behavior.communication.message.robot.acknowledge.RobotStatusMessage;
+import kr.ac.uos.ai.behavior.communication.message.robot.request.CheckRobotReady;
 import kr.ac.uos.ai.behavior.communication.message.robot.request.MoveToPosition;
 import kr.ac.uos.ai.behavior.communication.message.robot.request.MoveToTray;
 import kr.ac.uos.ai.behavior.communication.message.value.RobotID;
 
-public class RobotCommunication extends Communication{
+public class URCommunication extends Communication{
 
 	private RobotMessage waitingResponse;
 	private RobotID robotID;
+	private Adaptor connectionCheck;
 //	private Thread checkRobotStatus;
 	
-	public RobotCommunication(BehaviorInterface bi, String robotID, String ip,int port) {
+	public URCommunication(BehaviorInterface bi, String robotID, String robotIP, int port) {
 		super(bi);
-		adaptor = new SocketAdaptor(this, ip, port);
+		adaptor = new ServerSocketAdaptor(this, port);
+		connectionCheck = new SocketAdaptor(this, robotIP, port);
 		this.robotID = RobotID.valueOf(robotID);
 //		checkRobotStatus = new CheckRobotStatus();
 	}
 	
 	public void onMessage(String message) {
-		AckMessage parsedMessage = parseMessage(message);
-		if (parsedMessage instanceof RobotStatusMessage) {
-			RobotStatusMessage m = (RobotStatusMessage) parsedMessage;
-			behaviorInterface.onMessage(m);
+		if (message.contains("UR10")) {
+			System.out.println(message);
+			System.out.println("UR10 connected...");
 			return;
 		}
+		AckMessage parsedMessage = parseMessage(message);
 		
 		if (this.waitingResponse != null) {
 			this.waitingResponse.setResponse(parsedMessage);
@@ -81,7 +86,16 @@ public class RobotCommunication extends Communication{
 			return "(fail \"" + actionID + "\")";
 		}
 	}
-		
+	
+	public String checkRobotReady(String sender, String actionID) {
+		if (this.waitingResponse == null) {
+			this.waitingResponse = new CheckRobotReady(sender, actionID, this.robotID);
+			this.adaptor.send(waitingResponse.getMessage());
+			return "(ok)";
+		} else {
+			return "(fail \"" + actionID + "\")";
+		}
+	}
 //	public void startCheckRobotStatus() {
 //		this.checkRobotStatus.start();
 //	}

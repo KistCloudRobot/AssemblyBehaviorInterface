@@ -24,13 +24,16 @@ public class EpsonTest extends ArbiAgent {
 		String request = "";
 		String receiver = Configuration.BEHAVIOR_INTERFACE_ADDRESS;
 		
-		request = "(StartEpsonController \"test1\")";
-		test.testMessage(request);
 		sc.nextLine();
 		
 		request = "(InitGripper \"test2\")";
 		test.testMessage(request);
 		sc.nextLine();
+
+		request = "(CheckRobotReady \"test1\")";
+		test.testMessage(request);
+		sc.nextLine();
+		
 
 		request = "(MoveToPosition \"test1\" \"EpsonHome\")";
 		test.testMessage(request);
@@ -97,6 +100,12 @@ public class EpsonTest extends ArbiAgent {
 		test.testMessage(request);
 		sc.nextLine();
 		
+	}
+	
+	@Override
+	public void onData(String sender, String data) {
+		System.out.println("OnDat sender \t: " + sender);
+		System.out.println("OnDat data \t: " + data);
 	}
 	
 	public void testMessage(String request) {

@@ -7,7 +7,7 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import kr.ac.uos.ai.behavior.communication.RobotCommunication;
+import kr.ac.uos.ai.behavior.communication.URCommunication;
 
 public class SocketTest extends Thread{
 
@@ -17,7 +17,7 @@ public class SocketTest extends Thread{
 	private Socket socket;
 	private PrintWriter printWriter;
 	private BufferedReader bufferedReader;
-	private RobotCommunication robotInterface;
+	private URCommunication robotInterface;
 	
 	public static void main(String[] args) throws IOException {
 		ServerSocket server = new ServerSocket(port);

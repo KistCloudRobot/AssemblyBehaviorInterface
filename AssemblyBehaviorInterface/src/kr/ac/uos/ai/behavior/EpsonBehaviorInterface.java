@@ -4,6 +4,7 @@ import kr.ac.uos.ai.arbi.agent.ArbiAgentExecutor;
 import kr.ac.uos.ai.arbi.model.GLFactory;
 import kr.ac.uos.ai.arbi.model.GeneralizedList;
 import kr.ac.uos.ai.arbi.model.parser.ParseException;
+import kr.ac.uos.ai.behavior.communication.EpsonCommunication;
 import kr.ac.uos.ai.behavior.communication.GripperCommunication;
 import kr.ac.uos.ai.behavior.communication.URCommunication;
 import kr.ac.uos.ai.behavior.communication.message.BehaviorMessage;
@@ -11,16 +12,16 @@ import kr.ac.uos.ai.behavior.communication.message.robot.acknowledge.RobotStatus
 import kr.ac.uos.ai.behavior.communication.message.value.ActionType;
 import kr.ac.uos.ai.behavior.communication.message.value.RobotID;
 
-public class RobotBehaviorInterface extends BehaviorInterface{
+public class EpsonBehaviorInterface extends BehaviorInterface{
 
-	private URCommunication robotCommunication;
+	private EpsonCommunication robotCommunication;
 	private GripperCommunication gripperCommunication;
 	
 	
-	public RobotBehaviorInterface(String brokerAddress, int brokerPort, String robotID, String robotIP,int robotPort, String gripperPort) {
+	public EpsonBehaviorInterface(String brokerAddress, int brokerPort, String robotID, int robotPort, String gripperPort) {
 		super(brokerAddress, brokerPort);
 		
-		robotCommunication = new URCommunication(this, robotID, robotIP, robotPort);
+		robotCommunication = new EpsonCommunication(this, robotID, robotPort);
 		gripperCommunication = new GripperCommunication(this, gripperPort);
 		
 		robotCommunication.connect();
@@ -86,6 +87,10 @@ public class RobotBehaviorInterface extends BehaviorInterface{
 				response = gripperCommunication.initGripper(sender, actionID);
 				break;
 				
+			case CheckRobotReady :
+				response = robotCommunication.checkRobotReady(sender, actionID);
+				break;
+				
 			default :
 				response = "(wrongRequest)";
 				break;
@@ -103,36 +108,38 @@ public class RobotBehaviorInterface extends BehaviorInterface{
 	public void onMessage(BehaviorMessage message) {
 		if (message instanceof RobotStatusMessage) {
 			RobotStatusMessage m = (RobotStatusMessage) message;
-			this.onRobotStatus(m);
+			System.out.println("what?");
+			System.out.println(m);
+//			this.onRobotStatus(m);
 		} else System.out.println("wrong message arrived : " + message.toString());
 		
 	}
 	
-	private void onRobotStatus(RobotStatusMessage message) {
-		String robotID = message.getRobotID().toString();
-		String robotState = message.getState().toString();
-		String robotPosition = message.getPosition().toString();
-		
-		this.updateRobotPosition(robotID, robotPosition);
-		this.updateRobotState(robotID, robotState);
-	}
-	
-	private void updateRobotPosition(String robotID, String position) {
-		String before = "(robotPosition \"" + robotID + "\" $oldPosition)";
-		String after = "(robotPosition \"" + robotID + "\" \"" + position + "\")";
-		String update = "(update " + before + " " + after + ")";
-		this.dataSource.updateFact(update);
-	}
-	
-	private void updateRobotState(String robotID, String status) {
-		String before = "(robotState \"" + robotID + "\" $oldStatus)";
-		String after = "(robotState \"" + robotID + "\" \"" + status + "\")";
-		String update = "(update " + before + " " + after + ")";
-		this.dataSource.updateFact(update);
-	}
+//	private void onRobotStatus(RobotStatusMessage message) {
+//		String robotID = message.getRobotID().toString();
+//		String robotState = message.getState().toString();
+//		String robotPosition = message.getPosition().toString();
+//		
+//		this.updateRobotPosition(robotID, robotPosition);
+//		this.updateRobotState(robotID, robotState);
+//	}
+//	
+//	private void updateRobotPosition(String robotID, String position) {
+//		String before = "(robotPosition \"" + robotID + "\" $oldPosition)";
+//		String after = "(robotPosition \"" + robotID + "\" \"" + position + "\")";
+//		String update = "(update " + before + " " + after + ")";
+//		this.dataSource.updateFact(update);
+//	}
+//	
+//	private void updateRobotState(String robotID, String status) {
+//		String before = "(robotState \"" + robotID + "\" $oldStatus)";
+//		String after = "(robotState \"" + robotID + "\" \"" + status + "\")";
+//		String update = "(update " + before + " " + after + ")";
+//		this.dataSource.updateFact(update);
+//	}
 	
 	public static void main(String[] args) {
-		BehaviorInterface bi = new RobotBehaviorInterface(Configuration.SERVER_ADDRESS, Configuration.SERVER_PORT_EPSON, "Epson", Configuration.EPSON_ARM_ADDRESS,Configuration.EPSON_ARM_PORT, Configuration.EPSON_GRIPPER_PORT);
+		BehaviorInterface bi = new EpsonBehaviorInterface(Configuration.SERVER_ADDRESS, Configuration.SERVER_PORT_EPSON, "Epson", Configuration.EPSON_ARM_PORT, Configuration.EPSON_GRIPPER_PORT);
 		
 		ArbiAgentExecutor.execute(Configuration.SERVER_ADDRESS, Configuration.SERVER_PORT_EPSON, Configuration.BEHAVIOR_INTERFACE_ADDRESS, bi, Configuration.BROKER_TYPE);
 		String response = bi.onRequest("test", "(Grasp \"test1\" \"PCB\")");

@@ -7,7 +7,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import kr.ac.uos.ai.behavior.communication.RobotCommunication;
+import kr.ac.uos.ai.behavior.communication.URCommunication;
 
 public class SocketAdaptor extends Thread implements Adaptor{
 
@@ -16,9 +16,9 @@ public class SocketAdaptor extends Thread implements Adaptor{
 	private Socket socket;
 	private PrintWriter printWriter;
 	private BufferedReader bufferedReader;
-	private RobotCommunication robotInterface;
+	private URCommunication robotInterface;
 	
-	public SocketAdaptor(RobotCommunication rc, String ip, int port) {
+	public SocketAdaptor(URCommunication rc, String ip, int port) {
 		this.robotInterface = rc;
 		this.ip = ip;
 		this.port = port;
