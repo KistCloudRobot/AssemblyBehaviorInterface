@@ -79,8 +79,8 @@ public class SocketAdaptor extends Thread implements Adaptor{
 	
 
 	private void handleMessage(String message) {
-//		System.out.println(message);
-		robotInterface.onMessage(message);
+		System.out.println("From UR10 Server\t : " + message);
+//		robotInterface.onMessage(message);
 	}
 	
 	public void send(String message) {

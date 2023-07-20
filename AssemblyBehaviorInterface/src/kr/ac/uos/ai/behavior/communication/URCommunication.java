@@ -5,7 +5,7 @@ import kr.ac.uos.ai.behavior.communication.adaptor.Adaptor;
 import kr.ac.uos.ai.behavior.communication.adaptor.ServerSocketAdaptor;
 import kr.ac.uos.ai.behavior.communication.adaptor.SocketAdaptor;
 import kr.ac.uos.ai.behavior.communication.message.robot.RobotMessage;
-import kr.ac.uos.ai.behavior.communication.message.robot.acknowledge.AckControllerInitMessage;
+import kr.ac.uos.ai.behavior.communication.message.robot.acknowledge.AckInitMessage;
 import kr.ac.uos.ai.behavior.communication.message.robot.acknowledge.AckEndMessage;
 import kr.ac.uos.ai.behavior.communication.message.robot.acknowledge.AckMessage;
 import kr.ac.uos.ai.behavior.communication.message.robot.acknowledge.RobotStatusMessage;
@@ -50,7 +50,7 @@ public class URCommunication extends Communication{
 	private AckMessage parseMessage(String message) {
 		AckMessage result = null;
 		if (message.startsWith("<")) {
-			result = new AckControllerInitMessage(message);
+			result = new AckInitMessage(message);
 			return result;
 		}
 		String[] parsedMessage = message.split(",");

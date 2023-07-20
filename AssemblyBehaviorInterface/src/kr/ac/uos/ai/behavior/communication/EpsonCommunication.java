@@ -4,7 +4,7 @@ import kr.ac.uos.ai.behavior.BehaviorInterface;
 import kr.ac.uos.ai.behavior.communication.adaptor.ServerSocketAdaptor;
 import kr.ac.uos.ai.behavior.communication.adaptor.SocketAdaptor;
 import kr.ac.uos.ai.behavior.communication.message.robot.RobotMessage;
-import kr.ac.uos.ai.behavior.communication.message.robot.acknowledge.AckControllerInitMessage;
+import kr.ac.uos.ai.behavior.communication.message.robot.acknowledge.AckInitMessage;
 import kr.ac.uos.ai.behavior.communication.message.robot.acknowledge.AckEndMessage;
 import kr.ac.uos.ai.behavior.communication.message.robot.acknowledge.AckMessage;
 import kr.ac.uos.ai.behavior.communication.message.robot.acknowledge.RobotStatusMessage;
@@ -34,6 +34,13 @@ public class EpsonCommunication extends Communication{
 //			return;
 //		}
 //		
+		
+		if (parsedMessage instanceof AckInitMessage) {
+			System.out.println("connected\t : " + message);
+			this.waitingResponse = null;
+			return;
+		}
+		
 		if (this.waitingResponse != null) {
 			this.waitingResponse.setResponse(parsedMessage);
 			behaviorInterface.send(waitingResponse.getSender(), waitingResponse.getResponse());
@@ -46,8 +53,12 @@ public class EpsonCommunication extends Communication{
 	
 	private AckMessage parseMessage(String message) {
 		AckMessage result = null;
+		if (message.contains("Epson")) {
+			result = new AckInitMessage(message);
+			return result;
+		}
 		if (message.startsWith("<")) {
-			result = new AckControllerInitMessage(message);
+			result = new AckInitMessage(message);
 			return result;
 		}
 		String[] parsedMessage = message.split(",");
