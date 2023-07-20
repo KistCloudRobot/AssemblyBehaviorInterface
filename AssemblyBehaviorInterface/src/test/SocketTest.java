@@ -12,7 +12,7 @@ import kr.ac.uos.ai.behavior.communication.URCommunication;
 public class SocketTest extends Thread{
 
 	private static String ip = "127.0.0.1";
-	private static int port = 1470;
+	private static int port = 30000;
 	private ServerSocket server;
 	private Socket socket;
 	private PrintWriter printWriter;
@@ -20,10 +20,8 @@ public class SocketTest extends Thread{
 	private URCommunication robotInterface;
 	
 	public static void main(String[] args) throws IOException {
-		ServerSocket server = new ServerSocket(port);
-		
-		while(true) {
-			Socket socket = server.accept();
+
+			Socket socket = new Socket(ip, port);
 
 			BufferedReader br = null;
 			PrintWriter pw = null;
@@ -31,28 +29,42 @@ public class SocketTest extends Thread{
 			br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			
 			pw = new PrintWriter(socket.getOutputStream());
+			
+			pw.println("12,0,0,0");
+			pw.flush();
 
-			String str = br.readLine();
-			if (str.startsWith("12")) {
-				System.out.println("send ack");
-				pw.println("12,1,1,0,0,0,1\r\n");
-				pw.flush();
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-				System.out.println("send ack end");
-				pw.println("12,1,1,0,0,0,3\r\n");
-				pw.flush();
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
+			pw.println(",1\r\n");
+			pw.flush();
+
+			
+			socket.close();
+//			String str = br.readLine();
+//			if (str.startsWith("12")) {
+//				System.out.println("send ack");
+//				pw.println("12,1,1,0,0,0,1\r\n");
+//				pw.flush();
+//				try {
+//					Thread.sleep(1000);
+//				} catch (InterruptedException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//				
+//				System.out.println("send ack end");
+//				pw.println("12,1,1,0,0,0,3\r\n");
+//				pw.flush();
+//			}
 //			System.out.println(br.readLine());
 			
 //			pw.println("<I>1:1:1:0:1:0:1:0:0:0:0:0:0:0:0:0</I>\r\n");
 //			pw.flush();
-		}
+//		}
 		
 	}
 	

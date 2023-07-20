@@ -11,16 +11,16 @@ import kr.ac.uos.ai.behavior.communication.message.robot.acknowledge.RobotStatus
 import kr.ac.uos.ai.behavior.communication.message.value.ActionType;
 import kr.ac.uos.ai.behavior.communication.message.value.RobotID;
 
-public class RobotBehaviorInterface extends BehaviorInterface{
+public class URBehaviorInterface extends BehaviorInterface{
 
 	private URCommunication robotCommunication;
 	private GripperCommunication gripperCommunication;
 	
 	
-	public RobotBehaviorInterface(String brokerAddress, int brokerPort, String robotID, String robotIP,int robotPort, String gripperPort) {
+	public URBehaviorInterface(String brokerAddress, int brokerPort, String robotID,int robotPort, String robotServerIP, int robotServerPort, String gripperPort) {
 		super(brokerAddress, brokerPort);
 		
-		robotCommunication = new URCommunication(this, robotID, robotIP, robotPort);
+		robotCommunication = new URCommunication(this, robotID, robotPort, robotServerIP, robotServerPort);
 		gripperCommunication = new GripperCommunication(this, gripperPort);
 		
 		robotCommunication.connect();
@@ -28,12 +28,7 @@ public class RobotBehaviorInterface extends BehaviorInterface{
 		
 //		assertInitialStatus(robotID);
 	}
-	
-	@Override
-	public void onStart() {
-		super.onStart();
-	}
-	
+
 	private void assertInitialStatus(String robotID) {
 		String position = "(robotPosition \"" + robotID + "\" \"" + robotID + "Home\")";
 		this.dataSource.assertFact(position);
@@ -52,7 +47,6 @@ public class RobotBehaviorInterface extends BehaviorInterface{
 			String response = null;
 			String robotCommand = null;
 			String item = null;
-			String rotation= null;
 			
 			switch(actionType) {
 			case MoveToPosition :
@@ -76,11 +70,6 @@ public class RobotBehaviorInterface extends BehaviorInterface{
 				item = gl.getExpression(1).asValue().stringValue();
 				response = gripperCommunication.release(sender, actionID, item);
 				break;
-				
-			case RotateGripper :
-				rotation = gl.getExpression(1).asValue().stringValue();
-				response = gripperCommunication.rotate(sender, actionID, rotation);
-				break;
 							
 			case InitGripper :
 				response = gripperCommunication.initGripper(sender, actionID);
@@ -101,10 +90,11 @@ public class RobotBehaviorInterface extends BehaviorInterface{
 
 	@Override
 	public void onMessage(BehaviorMessage message) {
-		if (message instanceof RobotStatusMessage) {
-			RobotStatusMessage m = (RobotStatusMessage) message;
-			this.onRobotStatus(m);
-		} else System.out.println("wrong message arrived : " + message.toString());
+//		if (message instanceof RobotStatusMessage) {
+//			RobotStatusMessage m = (RobotStatusMessage) message;
+//			this.onRobotStatus(m);
+//		} else 
+		System.out.println("wrong message arrived : " + message.toString());
 		
 	}
 	
@@ -129,14 +119,6 @@ public class RobotBehaviorInterface extends BehaviorInterface{
 		String after = "(robotState \"" + robotID + "\" \"" + status + "\")";
 		String update = "(update " + before + " " + after + ")";
 		this.dataSource.updateFact(update);
-	}
-	
-	public static void main(String[] args) {
-		BehaviorInterface bi = new RobotBehaviorInterface(Configuration.SERVER_ADDRESS, Configuration.SERVER_PORT_EPSON, "Epson", Configuration.EPSON_ARM_ADDRESS,Configuration.EPSON_ARM_PORT, Configuration.EPSON_GRIPPER_PORT);
-		
-		ArbiAgentExecutor.execute(Configuration.SERVER_ADDRESS, Configuration.SERVER_PORT_EPSON, Configuration.BEHAVIOR_INTERFACE_ADDRESS, bi, Configuration.BROKER_TYPE);
-		String response = bi.onRequest("test", "(Grasp \"test1\" \"PCB\")");
-		System.out.println("response : " + response);
 	}
 
 }

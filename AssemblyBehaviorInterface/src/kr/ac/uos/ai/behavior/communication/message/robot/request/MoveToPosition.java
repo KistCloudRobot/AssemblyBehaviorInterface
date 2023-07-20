@@ -17,9 +17,9 @@ public class MoveToPosition extends RobotMessage{
 	@Override
 	public String getMessage() {		String result = "";
 		if (command.getValue() == 11 || command.getValue() == 13 || command.getValue() == 16 || command.getValue() == 21 || command.getValue() == 26) {
-			result = command.getValue() + "0,0,0";
+			result = command.getValue() + ",0,0,0";
 		} else {
-			result = command.getValue() + "0,0,0,0,0";
+			result = command.getValue() + ",0,0,0,0,0";
 		}
 		return result;
 	}

@@ -30,11 +30,6 @@ public class EpsonTest extends ArbiAgent {
 		test.testMessage(request);
 		sc.nextLine();
 
-		request = "(CheckRobotReady \"test1\")";
-		test.testMessage(request);
-		sc.nextLine();
-		
-
 		request = "(MoveToPosition \"test1\" \"EpsonHome\")";
 		test.testMessage(request);
 		sc.nextLine();
@@ -104,8 +99,8 @@ public class EpsonTest extends ArbiAgent {
 	
 	@Override
 	public void onData(String sender, String data) {
-		System.out.println("OnDat sender \t: " + sender);
-		System.out.println("OnDat data \t: " + data);
+		System.out.println("OnData sender \t: " + sender);
+		System.out.println("OnData data \t: " + data);
 	}
 	
 	public void testMessage(String request) {
