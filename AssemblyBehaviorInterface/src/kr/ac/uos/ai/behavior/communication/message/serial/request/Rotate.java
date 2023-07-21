@@ -8,7 +8,6 @@ import kr.ac.uos.ai.behavior.communication.message.serial.response.GripperAckMes
 import kr.ac.uos.ai.behavior.communication.message.serial.response.GripperStatusMessage;
 import kr.ac.uos.ai.behavior.communication.message.value.ActionType;
 import kr.ac.uos.ai.behavior.communication.message.value.GripperRotation;
-import kr.ac.uos.ai.behavior.communication.message.value.Item;
 
 public class Rotate extends SerialMessage {
 

@@ -5,8 +5,6 @@ import kr.ac.uos.ai.arbi.model.GeneralizedList;
 import kr.ac.uos.ai.arbi.model.parser.ParseException;
 import kr.ac.uos.ai.behavior.communication.GripperCommunication;
 import kr.ac.uos.ai.behavior.communication.URCommunication;
-import kr.ac.uos.ai.behavior.communication.message.BehaviorMessage;
-import kr.ac.uos.ai.behavior.communication.message.robot.acknowledge.RobotStatusMessage;
 import kr.ac.uos.ai.behavior.communication.message.value.ActionType;
 
 public class URBehaviorInterface extends BehaviorInterface{

@@ -9,12 +9,18 @@ public enum ActionType {
 	Rotate,				
 	CheckRobotReady,
 	InitGripper,
-		
+	
+	CheckTray,
+	
+	CheckSubPC,
+	
 	RiseGuideJig,				VisionInspect,
 	CheckLabel,
 	
 	RotateToLabelPosition,		RotateToAttachPosition,
 	StartVacuum,				StopVacuum,
 	LiftUp,						LiftDown; 
+	
+	
 	
 }

@@ -18,7 +18,7 @@ public class TrayTest extends ArbiAgent {
 		TrayTest test = new TrayTest();
 		Scanner sc = new Scanner(System.in);
 		
-		ArbiAgentExecutor.execute(Configuration.SERVER_ADDRESS, Configuration.SERVER_PORT_TRAY, "agent://www.arbi.com/TaskManager", test, Configuration.BROKER_TYPE);
+		ArbiAgentExecutor.execute(Configuration.SERVER_ADDRESS, Configuration.SERVER_PORT_PRODUCTION_FACILITY, "agent://www.arbi.com/TaskManager", test, Configuration.BROKER_TYPE);
 		
 		String request = "";
 		

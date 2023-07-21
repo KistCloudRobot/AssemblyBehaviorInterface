@@ -1,15 +1,12 @@
 package kr.ac.uos.ai.behavior;
 
-import kr.ac.uos.ai.arbi.agent.ArbiAgentExecutor;
 import kr.ac.uos.ai.arbi.model.GLFactory;
 import kr.ac.uos.ai.arbi.model.GeneralizedList;
 import kr.ac.uos.ai.arbi.model.parser.ParseException;
 import kr.ac.uos.ai.behavior.communication.SubPCCommunication;
 import kr.ac.uos.ai.behavior.communication.TrayCommunication;
 import kr.ac.uos.ai.behavior.communication.LabelPrinterCommunication;
-import kr.ac.uos.ai.behavior.communication.message.BehaviorMessage;
 import kr.ac.uos.ai.behavior.communication.message.value.ActionType;
-import kr.ac.uos.ai.behavior.log.BehaviorLogger;
 
 public class ProductionFacilityBehaviorInterface extends BehaviorInterface{
 
@@ -37,14 +34,12 @@ public class ProductionFacilityBehaviorInterface extends BehaviorInterface{
 		housingTrayCommunication.connect();
 		lensTrayCommunication.connect();
 		frontTrayCommunication.connect();
-		
-		
 	}
 	
 	
 	@Override
 	public String onRequest(String sender, String request) {
-		System.out.println("[request]\t: " + request + " timestamp : " + System.currentTimeMillis());
+		logger.log("[request]\t: " + request + " timestamp : " + System.currentTimeMillis());
 		try {
 			GeneralizedList gl = GLFactory.newGLFromGLString(request);
 			ActionType actionType = ActionType.valueOf(gl.getName());
@@ -53,6 +48,10 @@ public class ProductionFacilityBehaviorInterface extends BehaviorInterface{
 			String response = null;
 			
 			switch(actionType) {
+			case CheckSubPC :
+				response = subPCCommunication.checkSubPC(sender, actionID);
+				break;
+				
 			case RiseGuideJig :
 				response = subPCCommunication.riseGuideJig(sender, actionID);
 				break;
@@ -94,7 +93,7 @@ public class ProductionFacilityBehaviorInterface extends BehaviorInterface{
 				response = "(wrongRequest)";
 				break;
 			}
-			System.out.println("before response : " + response);
+			logger.log("[request] response : " + response);
 			return response;
 		} catch (ParseException e) {
 			e.printStackTrace();

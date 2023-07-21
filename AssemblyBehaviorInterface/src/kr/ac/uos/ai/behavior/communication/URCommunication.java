@@ -27,8 +27,7 @@ public class URCommunication extends RobotCommunication{
 	public void onMessage(String message) {
 
 		logger.log("[URCommunication] onMessage : " + message);
-		message = message.replace("\n", "");
-		message = message.replace("\r", "");
+		message = removeEndLineMarker(message);
 		messageBuilder.append(message);
 		if (messageBuilder.toString().endsWith("1") || messageBuilder.toString().endsWith("3") || messageBuilder.toString().startsWith("92")) {
 

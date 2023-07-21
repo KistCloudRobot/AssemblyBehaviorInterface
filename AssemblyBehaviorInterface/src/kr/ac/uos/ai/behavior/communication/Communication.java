@@ -25,4 +25,10 @@ public abstract class Communication {
 		adaptor.send(message);
 	}
 	
+	
+	protected String removeEndLineMarker(String input) {
+		input = input.replace("\r", "");
+		input = input.replace("\n", "");
+		return input;
+	}
 }

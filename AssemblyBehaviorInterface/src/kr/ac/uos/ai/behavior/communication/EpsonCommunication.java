@@ -14,7 +14,7 @@ public class EpsonCommunication extends RobotCommunication{
 	
 	public void onMessage(String message) {
 		logger.log("[EpsonCommunication] onMessage : " + message);
-		message = message.replace("\r\n", "");
+		message = removeEndLineMarker(message);
 		messageBuilder.append(message);
 		if (messageBuilder.toString().endsWith("1") || messageBuilder.toString().endsWith("3") || messageBuilder.toString().startsWith("92")) {
 			AckMessage parsedMessage = parseMessage(messageBuilder.toString());

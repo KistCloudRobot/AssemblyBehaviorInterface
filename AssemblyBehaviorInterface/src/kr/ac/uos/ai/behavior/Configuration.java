@@ -10,7 +10,7 @@ public class Configuration {
 	public static final String SERVER_ADDRESS = "127.0.0.1";
 	public static final int SERVER_PORT_EPSON = 61116;
 	public static final int SERVER_PORT_UR = 61115;
-	public static final int SERVER_PORT_TRAY = 61114;
+	public static final int SERVER_PORT_PRODUCTION_FACILITY = 61114;
 	public static final BrokerType BROKER_TYPE = BrokerType.ACTIVEMQ;
 	
   	public static final int EPSON_ARM_PORT = 1470;
@@ -21,7 +21,12 @@ public class Configuration {
 	public static final int UR_ARM_SERVER_PORT = 29999;
 	public static final String UR_GRIPPER_PORT = "COM12";
 	
-	public static final String TRAY_PORT = "COM??";
+	public static final String LABEL_PRINTER_PORT = "COM4";
+
+	public static final String PCB_TRAY_PORT = "COM4";
+	public static final String HOUSING_TRAY_PORT = "COM4";
+	public static final String LENS_TRAY_PORT = "COM4";
+	public static final String FRONT_TRAY_PORT = "COM4";
 	public static final String SUB_PC_PORT = "COM??";
 	
 	public static final int BEATRATE = 115200;

@@ -21,9 +21,10 @@ public class LabelPrinterCommunication extends SerialCommunication {
 	@Override
 	public void onMessage(String message) {
 		logger.log("[LabelPrinterCommunication] onMessage : " + message);
+		message = removeEndLineMarker(message);
 		if (this.waitingResponse != null && message.startsWith("<")) {
-			message = message.replace("\r", "");
-			message = message.replace("\n", "");
+//			message = message.replace("\r", "");
+//			message = message.replace("\n", "");
 			TrayResponseMessage m = parseMessage(message);
 			this.waitingResponse.setResponse(m);
 			behaviorInterface.sendMessage(waitingResponse.getSender(), waitingResponse.getResponse());
