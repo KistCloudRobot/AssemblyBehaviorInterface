@@ -13,15 +13,15 @@ public class EpsonCommunication extends RobotCommunication{
 	}
 	
 	public void onMessage(String message) {
-		System.out.println("EpsonComm onMessage \t: " + message);
+		logger.log("[EpsonCommunication] onMessage : " + message);
 		message = message.replace("\r\n", "");
 		messageBuilder.append(message);
 		if (messageBuilder.toString().endsWith("1") || messageBuilder.toString().endsWith("3") || messageBuilder.toString().startsWith("92")) {
 			AckMessage parsedMessage = parseMessage(messageBuilder.toString());
 
-			System.out.println("parsed message \t: " + parsedMessage.getType());
+			logger.log("[EpsonCommunication] parsed message : " + parsedMessage.toString());
 			if (parsedMessage instanceof AckInitMessage) {
-				System.out.println("connected\t : " + message);
+				logger.log("[EpsonCommunication] connected : " + message);
 				this.waitingResponse = null;
 				return;
 			}
@@ -37,10 +37,10 @@ public class EpsonCommunication extends RobotCommunication{
 			
 			messageBuilder.setLength(0);
 		} else if (messageBuilder.toString().contains("EPSON")) {
-			System.out.println("EpsonComm onMessage \t: Epson connected " + messageBuilder.toString());
+			logger.log("[EpsonCommunication] onMessage : Epson connected : " + messageBuilder.toString());
 			messageBuilder.setLength(0);
 		} else {
-			System.out.println("EpsonComm onMessage \t: message is not complete :" + messageBuilder.toString());
+			logger.log("[EpsonCommunication] onMessage : message is not complete : " + messageBuilder.toString());
 			return;
 		}
 		
@@ -48,7 +48,7 @@ public class EpsonCommunication extends RobotCommunication{
 	
 	private AckMessage parseMessage(String message) {
 		AckMessage result = null;
-		
+		logger.log("[EpsonCommunication] parseMessage : parse message -  " + message);
 		System.out.println("parse message \t: " + message);
 		if (message.startsWith("EPSON")) {
 			result = new AckInitMessage(message);
@@ -61,14 +61,16 @@ public class EpsonCommunication extends RobotCommunication{
 			 result = new RobotStatusMessage(Integer.parseInt(serialMessage[0]),Integer.parseInt(serialMessage[1]),Integer.parseInt(serialMessage[2]),Integer.parseInt(serialMessage[3]));
 			 return result;
 		} else if (serialMessage[len-1].equals("1")) {
-			result = new AckMessage(0, Integer.parseInt(serialMessage[1]));
+			result = new AckMessage(0, Integer.parseInt(serialMessage[len-1]));
 //			result = new AckMessage(Integer.parseInt(serialMessage[0]), Integer.parseInt(serialMessage[len-1]));
 			return result;
 		} else if (serialMessage[len-1].equals("3")){
-			result = new AckMessage(0, Integer.parseInt(serialMessage[1]));
+			result = new AckMessage(0, Integer.parseInt(serialMessage[len-1]));
 //			result = new AckEndMessage(Integer.parseInt(serialMessage[0]), Integer.parseInt(serialMessage[len-1]));
 			return result;
-		} else System.out.println("wrong socket message : " + message); 
+		} else {
+			logger.warning("[EpsonCommunication] parsing failed : " + message);
+		}
 		return result;
 	}
 	

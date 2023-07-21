@@ -9,5 +9,4 @@ public abstract class SerialCommunication extends Communication{
 		super(bi);
 		this.adaptor = new SerialAdaptor(this, portName);
 	}
-
 }

@@ -47,9 +47,9 @@ public class Rotate extends SerialMessage {
 		} else if(responseMessage instanceof GripperStatusMessage) {
 			actionID = GLFactory.newExpression(GLFactory.newValue(this.getActionID()));
 			String[] response = ((GripperStatusMessage) responseMessage).getResponse();
-			if (this.rotation == GripperRotation.On && response[6].equals("1")) {
+			if (this.rotation == GripperRotation.On && response[7].equals("1")) {
 				actionResult = GLFactory.newExpression(GLFactory.newValue("success"));
-			} else if (this.rotation == GripperRotation.Off && response[7].equals("1")) {
+			} else if (this.rotation == GripperRotation.Off && response[6].equals("1")) {
 				actionResult = GLFactory.newExpression(GLFactory.newValue("success"));
 			}
 			gl = GLFactory.newGL("ActionResult", actionID, actionResult);

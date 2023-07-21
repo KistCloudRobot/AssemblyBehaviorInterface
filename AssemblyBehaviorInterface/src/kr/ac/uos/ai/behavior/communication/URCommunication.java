@@ -25,15 +25,16 @@ public class URCommunication extends RobotCommunication{
 	}
 	
 	public void onMessage(String message) {
-		System.out.println("URComm OnMessage \t: " + message);
+
+		logger.log("[URCommunication] onMessage : " + message);
 		message = message.replace("\n", "");
 		message = message.replace("\r", "");
 		messageBuilder.append(message);
 		if (messageBuilder.toString().endsWith("1") || messageBuilder.toString().endsWith("3") || messageBuilder.toString().startsWith("92")) {
 
 			AckMessage parsedMessage = parseMessage(messageBuilder.toString());
-			
-			System.out.println("parsed message \t: " + parsedMessage.getType());
+
+			logger.log("[URCommunication] parsed message : " + parsedMessage.getClass());
 		
 			if (this.waitingResponse != null) {
 				this.waitingResponse.setResponse(parsedMessage);
@@ -45,11 +46,11 @@ public class URCommunication extends RobotCommunication{
 			}
 			messageBuilder.setLength(0);
 		} else if (messageBuilder.toString().contains("UR10")) {
-			System.out.println("UR Connected : " + messageBuilder.toString());
+			logger.warning("[URCommunication] UR Connected : " + messageBuilder.toString());
 
 			messageBuilder.setLength(0);
 		} else {
-			System.out.println("URComm onMessage \t: message is not complete :" + messageBuilder.toString());
+			logger.warning("[URCommunication] message is not complete : " + messageBuilder.toString());
 			return;
 		}
 	}
@@ -57,12 +58,8 @@ public class URCommunication extends RobotCommunication{
 	private AckMessage parseMessage(String message) {
 		AckMessage result = null;
 		message = message.replace("\r\n", "");
-		System.out.println("parse message \t: " + message);
-//		
-//		if (message.startsWith("<")) {
-//			result = new AckInitMessage(message);
-//			return result;
-//		}
+
+		logger.log("[URCommunication] parseMessage : " + message);
 		
 		String[] parsedMessage = message.split(",");
 		int len = parsedMessage.length;
@@ -75,7 +72,7 @@ public class URCommunication extends RobotCommunication{
 		} else if (parsedMessage[len-1].equals("3")){
 			result = new AckEndMessage(Integer.parseInt(parsedMessage[0]), Integer.parseInt(parsedMessage[len-1]));
 			return result;
-		} else System.out.println("wrong message : " + message); 
+		} else logger.warning("[URCommunication] parsing failed : " + message);
 		return result;
 	}
 	

@@ -6,23 +6,39 @@ import kr.ac.uos.ai.arbi.model.GeneralizedList;
 import kr.ac.uos.ai.arbi.model.parser.ParseException;
 import kr.ac.uos.ai.behavior.communication.SubPCCommunication;
 import kr.ac.uos.ai.behavior.communication.TrayCommunication;
+import kr.ac.uos.ai.behavior.communication.LabelPrinterCommunication;
 import kr.ac.uos.ai.behavior.communication.message.BehaviorMessage;
 import kr.ac.uos.ai.behavior.communication.message.value.ActionType;
+import kr.ac.uos.ai.behavior.log.BehaviorLogger;
 
-public class TrayBehaviorInterface extends BehaviorInterface{
+public class ProductionFacilityBehaviorInterface extends BehaviorInterface{
 
-	private TrayCommunication trayCommunication;
+	private LabelPrinterCommunication labelPrinterCommunication;
 	private SubPCCommunication subPCCommunication;
 	
+	private TrayCommunication pcbTrayCommunication;
+	private TrayCommunication housingTrayCommunication;
+	private TrayCommunication lensTrayCommunication;
+	private TrayCommunication frontTrayCommunication;
 	
-	public TrayBehaviorInterface(String brokerAddress, int brokerPort, String trayPort, String subPCPort) {
+	public ProductionFacilityBehaviorInterface(String brokerAddress, int brokerPort, String trayPort, String subPCPort, String pcbTrayPort, String housingTrayPort, String lensTrayPort, String frontTrayPort) {
 		super(brokerAddress, brokerPort);
 		
-		trayCommunication = new TrayCommunication(this, trayPort);
+		labelPrinterCommunication = new LabelPrinterCommunication(this, trayPort);
 		subPCCommunication = new SubPCCommunication(this, subPCPort);
+		pcbTrayCommunication = new TrayCommunication(this, pcbTrayPort);
+		housingTrayCommunication = new TrayCommunication(this, housingTrayPort);
+		lensTrayCommunication = new TrayCommunication(this, lensTrayPort);
+		frontTrayCommunication = new TrayCommunication(this, frontTrayPort);
 		
-		trayCommunication.connect();
+		labelPrinterCommunication.connect();
 		subPCCommunication.connect();
+		pcbTrayCommunication.connect();
+		housingTrayCommunication.connect();
+		lensTrayCommunication.connect();
+		frontTrayCommunication.connect();
+		
+		
 	}
 	
 	
@@ -50,27 +66,27 @@ public class TrayBehaviorInterface extends BehaviorInterface{
 				break;
 				
 			case RotateToAttachPosition :
-				response = trayCommunication.rotateToAttachPosition(sender, actionID);
+				response = labelPrinterCommunication.rotateToAttachPosition(sender, actionID);
 				break;
 				
 			case RotateToLabelPosition :
-				response = trayCommunication.rotateToLabelPosition(sender, actionID);
+				response = labelPrinterCommunication.rotateToLabelPosition(sender, actionID);
 				break;
 				
 			case StartVacuum :
-				response = trayCommunication.startVacuum(sender, actionID);
+				response = labelPrinterCommunication.startVacuum(sender, actionID);
 				break;
 				
 			case StopVacuum :
-				response = trayCommunication.stopVacuum(sender, actionID);
+				response = labelPrinterCommunication.stopVacuum(sender, actionID);
 				break;
 				
 			case LiftUp :
-				response = trayCommunication.liftUp(sender, actionID);
+				response = labelPrinterCommunication.liftUp(sender, actionID);
 				break;
 				
 			case LiftDown :
-				response = trayCommunication.liftDown(sender, actionID);
+				response = labelPrinterCommunication.liftDown(sender, actionID);
 				break;
 				
 				
@@ -84,22 +100,6 @@ public class TrayBehaviorInterface extends BehaviorInterface{
 			e.printStackTrace();
 			return "(fail)";
 		}
-	}
-
-
-	@Override
-	public void onMessage(BehaviorMessage message) {
-		System.out.println("wrong message arrived : " + message.toString());
-	}
-	
-	
-	
-	public static void main(String[] args) {
-		BehaviorInterface bi = new TrayBehaviorInterface(Configuration.SERVER_ADDRESS, Configuration.SERVER_PORT_EPSON, Configuration.TRAY_PORT, Configuration.SUB_PC_PORT);
-		
-		ArbiAgentExecutor.execute(Configuration.SERVER_ADDRESS, Configuration.SERVER_PORT_EPSON, Configuration.BEHAVIOR_INTERFACE_ADDRESS, bi, Configuration.BROKER_TYPE);
-		String response = bi.onRequest("test", "(Grasp \"test1\" \"PCB\")");
-		System.out.println("response : " + response);
 	}
 
 }

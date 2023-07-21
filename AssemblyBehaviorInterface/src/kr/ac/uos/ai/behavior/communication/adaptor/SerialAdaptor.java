@@ -9,10 +9,9 @@ import com.fazecast.jSerialComm.SerialPort;
 import kr.ac.uos.ai.behavior.Configuration;
 import kr.ac.uos.ai.behavior.communication.Communication;
 
-public class SerialAdaptor extends Thread implements Adaptor{
+public class SerialAdaptor extends Adaptor{
 	private String portName;
 	private int baudRate = 115200;
-	private Communication communication;
 	private SerialPort serialPort;
 	
 	private InputStream 	inputStream;
@@ -20,7 +19,7 @@ public class SerialAdaptor extends Thread implements Adaptor{
 	
 	
 	public SerialAdaptor(Communication communication, String portName) {
-		this.communication = communication;
+		super(communication);
 		this.portName = portName;
 		this.baudRate = Configuration.BEATRATE;
 	}
@@ -34,19 +33,19 @@ public class SerialAdaptor extends Thread implements Adaptor{
 		}
 		
 		if (serialPort == null) {
-			System.out.println("Failed to find serial port : " + portName);
+			logger.warning("[SerialAdaptor] Failed to find serial port : " + portName);
 			return;
 		}
 		
 		serialPort.setBaudRate(baudRate);
 		if (!serialPort.openPort()) {
-            System.err.println("Cannot open port : " + portName);
+			logger.warning("[SerialAdaptor] Cannot open port : " + portName);
             return;
         }
 
         inputStream = serialPort.getInputStream();
         outputStream = serialPort.getOutputStream();
-        
+        logger.log("[SerialAdaptor] serial port connected!");
         this.start();
 	}
 	
@@ -64,6 +63,8 @@ public class SerialAdaptor extends Thread implements Adaptor{
 
                     String[] messages = receivedMessage.toString().split("\r\n");
                     for (String message : messages) {
+
+                		logger.log("[SerialAdaptor] message received : " +message);
                     	handleMessage(message);
                     }
 
@@ -81,12 +82,12 @@ public class SerialAdaptor extends Thread implements Adaptor{
 	
 
 	private void handleMessage(String message) {
-		System.out.println("serial message :" + message);
 		communication.onMessage(message);
 	}
 	
 	
 	public void send(String message) {
+		logger.log("[SerialAdaptor] send message : " + message);
 		message = message + "\r\n";
 		try {
 			outputStream.write(message.getBytes());

@@ -1,35 +1,25 @@
 package kr.ac.uos.ai.behavior.communication.adaptor;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
 import kr.ac.uos.ai.behavior.communication.Communication;
-import kr.ac.uos.ai.behavior.communication.message.robot.acknowledge.AckEndMessage;
-import kr.ac.uos.ai.behavior.communication.message.robot.acknowledge.AckInitMessage;
-import kr.ac.uos.ai.behavior.communication.message.robot.acknowledge.AckMessage;
-import kr.ac.uos.ai.behavior.communication.message.robot.acknowledge.RobotStatusMessage;
+import kr.ac.uos.ai.behavior.log.BehaviorLogger;
 
-public class ServerSocketAdaptor extends Thread implements Adaptor {
+public class ServerSocketAdaptor extends Adaptor {
 	
+	private BehaviorLogger logger;
 	private ServerSocket server;
 	private Socket socket;
 	private PrintWriter printWriter;
-	private BufferedReader bufferedReader;
 	private DataInputStream dataInputStream;
-	private InputStream	inputStream;
-	private ByteArrayOutputStream messageBuffer;
-	private Communication robotCommunication;
 	
 	public ServerSocketAdaptor(Communication rc, int port) {
-		this.robotCommunication = rc;
+		super(rc);
 	
 		try {
 			this.server = new ServerSocket(port);
@@ -45,10 +35,7 @@ public class ServerSocketAdaptor extends Thread implements Adaptor {
 			System.out.println("start connect...");
 			socket = server.accept();
 			printWriter = new PrintWriter(socket.getOutputStream());
-			inputStream = socket.getInputStream();
-			messageBuffer = new ByteArrayOutputStream();
-//			dataInputStream = new DataInputStream(socket.getInputStream());
-//			bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			dataInputStream = new DataInputStream(socket.getInputStream());
 		    this.start();
 		    System.out.println("connected");
 		} catch (UnknownHostException e) {
@@ -62,38 +49,22 @@ public class ServerSocketAdaptor extends Thread implements Adaptor {
 	public void run() {
 		try {
 
-			byte[] buffer = new byte[1024];
+			byte[] buffer;
 			int bytesRead;
 			
-//			while (true) {
-//			    byte[] buffer = new byte[1024];
-//			    int bytesRead = dataInputStream.read(buffer);
-//			    if (bytesRead == -1) {
-//			        break;
-//			    }
-//
-//			    String message = new String(buffer, 0, bytesRead);
-//			    String[] messages = message.split("\r\n");
-//			    for (String msg : messages) {
-//			        handleMessage(msg);
-//			    }
-//			}
-//			
-			
-//			while(true) {
-//				String message = dataInputStream.readUTF();
-//				System.out.println("dataInputStream \t :" + message);
-//				handleMessage(message);
-//			}
-			
-			while ((bytesRead = inputStream.read(buffer)) != -1) {
-			    messageBuffer.write(buffer, 0, bytesRead);
+			while (true) {
+			    buffer = new byte[1024];
+			    bytesRead = dataInputStream.read(buffer);
+			    if (bytesRead == -1) {
+			    	logger.log("[ServerSocketAdaptor] connection has been terminated?");
+			        break;
+			    }
 
-			    byte[] messageBytes = messageBuffer.toByteArray();
-			    String message = new String(messageBytes, "UTF-8");
-			    if (message.endsWith("\r\n")) {
-			        handleMessage(message);
-			        messageBuffer.reset();  
+			    String message = new String(buffer, 0, bytesRead);
+			    String[] messages = message.split("\r\n");
+			    for (String msg : messages) {
+			    	logger.log("[ServerSocketAdaptor] received message " + msg);
+			        handleMessage(msg);
 			    }
 			}
 		} catch (IOException e) {
@@ -104,13 +75,12 @@ public class ServerSocketAdaptor extends Thread implements Adaptor {
 	}
 	
 	private void handleMessage(String message) {
-		System.out.println("handle robotArm Message \t: " + message);
-		robotCommunication.onMessage(message);
+		communication.onMessage(message);
 	}
 
 	@Override
 	public void send(String message) {
-		System.out.println("send robotArm Message \t: " + message);
+		logger.log("[ServerSocketAdaptor] send message " + message);
 		printWriter.println(message + "\r\n");
 		printWriter.flush();
 	}

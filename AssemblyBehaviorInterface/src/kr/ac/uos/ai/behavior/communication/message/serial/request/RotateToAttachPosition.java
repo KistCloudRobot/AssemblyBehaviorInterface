@@ -20,7 +20,7 @@ public class RotateToAttachPosition extends SerialMessage {
 		Expression actionResult = null;
 		if(responseMessage instanceof TrayResponseMessage) {
 			actionID = GLFactory.newExpression(GLFactory.newValue(this.getActionID()));
-			if(((TrayResponseMessage) responseMessage).getResponse().equals("<OUT07=1_ACK>")) {
+			if(((TrayResponseMessage) responseMessage).getResponse().equals("<OUT07=1_ACK/>")) {
 				actionResult = GLFactory.newExpression(GLFactory.newValue("success"));
 			} else {
 				actionResult = GLFactory.newExpression(GLFactory.newValue("fail"));

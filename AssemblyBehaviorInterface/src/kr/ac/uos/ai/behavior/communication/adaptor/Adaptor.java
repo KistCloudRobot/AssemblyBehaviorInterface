@@ -1,8 +1,21 @@
 package kr.ac.uos.ai.behavior.communication.adaptor;
 
-public interface Adaptor {
+import kr.ac.uos.ai.behavior.communication.Communication;
+import kr.ac.uos.ai.behavior.log.BehaviorLogger;
+
+public abstract class Adaptor extends Thread {
+
+	protected BehaviorLogger logger;
+	protected Communication communication;
 	
-	public void connect();
+	public Adaptor(Communication comm) {
+		logger = BehaviorLogger.getLogger();
+		this.communication = comm;
+	}
 	
-	public void send(String message);
+	public abstract void connect();
+	
+	public void send(String message) {
+		
+	}
 }

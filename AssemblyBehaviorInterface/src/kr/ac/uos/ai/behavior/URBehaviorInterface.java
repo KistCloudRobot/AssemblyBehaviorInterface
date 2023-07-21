@@ -36,7 +36,7 @@ public class URBehaviorInterface extends BehaviorInterface{
 	
 	@Override
 	public String onRequest(String sender, String request) {
-		System.out.println("[request]\t: " + request + " timestamp : " + System.currentTimeMillis());
+		logger.log("[request]\t: " + request + " timestamp : " + System.currentTimeMillis());
 		try {
 			GeneralizedList gl = GLFactory.newGLFromGLString(request);
 			ActionType actionType = ActionType.valueOf(gl.getName());
@@ -82,7 +82,7 @@ public class URBehaviorInterface extends BehaviorInterface{
 				response = "(wrongRequest)";
 				break;
 			}
-			System.out.println("before response : " + response);
+			logger.log("[request] response : " + response);
 			return response;
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -91,16 +91,15 @@ public class URBehaviorInterface extends BehaviorInterface{
 	}
 
 
-	@Override
-	public void onMessage(BehaviorMessage message) {
+//	@Override
+//	public void onMessage(BehaviorMessage message) {
 //		if (message instanceof RobotStatusMessage) {
 //			RobotStatusMessage m = (RobotStatusMessage) message;
 //			this.onRobotStatus(m);
 //		} else 
-		System.out.println("Behavior onMessage\t: " + message.toString());
-		
-	}
-	
+//		System.out.println("Behavior onMessage\t: " + message.toString());
+//		
+//	}
 //	private void onRobotStatus(RobotStatusMessage message) {
 //		String robotID = message.getRobotID().toString();
 //		String robotState = message.getState().toString();

@@ -10,16 +10,17 @@ import kr.ac.uos.ai.behavior.communication.message.serial.request.StartVacuum;
 import kr.ac.uos.ai.behavior.communication.message.serial.request.StopVacuum;
 import kr.ac.uos.ai.behavior.communication.message.serial.response.TrayResponseMessage;
 
-public class TrayCommunication extends SerialCommunication {
+public class LabelPrinterCommunication extends SerialCommunication {
 
 	private SerialMessage waitingResponse;
 	
-	public TrayCommunication(BehaviorInterface bi, String portName) {
+	public LabelPrinterCommunication(BehaviorInterface bi, String portName) {
 		super(bi, portName);
 	}
 
 	@Override
 	public void onMessage(String message) {
+		logger.log("[LabelPrinterCommunication] onMessage : " + message);
 		if (this.waitingResponse != null && message.startsWith("<")) {
 			message = message.replace("\r", "");
 			message = message.replace("\n", "");
@@ -28,7 +29,7 @@ public class TrayCommunication extends SerialCommunication {
 			behaviorInterface.sendMessage(waitingResponse.getSender(), waitingResponse.getResponse());
 			
 			this.waitingResponse = null;
-		} else System.out.println("wrong message from tray : " + message);
+		} else logger.log("[LabelPrinterCommunication] wrong message from printer : " + message);
 	}
 	
 	private TrayResponseMessage parseMessage(String message) {

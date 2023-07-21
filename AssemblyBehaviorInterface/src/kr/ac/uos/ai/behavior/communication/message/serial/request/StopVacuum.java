@@ -20,7 +20,7 @@ public class StopVacuum extends SerialMessage {
 		Expression actionResult = null;
 		if(responseMessage instanceof TrayResponseMessage) {
 			actionID = GLFactory.newExpression(GLFactory.newValue(this.getActionID()));
-			if(((TrayResponseMessage) responseMessage).getResponse().equals("<OUT05=0_ACK>")) {
+			if(((TrayResponseMessage) responseMessage).getResponse().equals("<OUT05=0_ACK/>")) {
 				actionResult = GLFactory.newExpression(GLFactory.newValue("success"));
 			} else {
 				actionResult = GLFactory.newExpression(GLFactory.newValue("fail"));

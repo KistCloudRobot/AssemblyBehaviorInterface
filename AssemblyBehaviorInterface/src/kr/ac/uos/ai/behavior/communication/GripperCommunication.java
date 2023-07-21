@@ -23,29 +23,31 @@ public class GripperCommunication extends SerialCommunication {
 
 	@Override
 	public void onMessage(String message) {
+
+		logger.log("[GripperCommunication] onMessage : " + message);
 		if (this.waitingResponse != null && message.startsWith("<I>") && message.endsWith("</I>")) {
-			System.out.println("GripperComm onMessage Check for AckEnd : " + message);
+			
 			GripperStatusMessage m = parseMessage(message);
 			this.waitingResponse.setResponse(m);
 			behaviorInterface.sendMessage(waitingResponse.getSender(), waitingResponse.getResponse());
-			
 			this.waitingResponse = null;
+			
 		} else if(this.waitingResponse != null && message.startsWith("<O>")) {
 			GripperInitResponseMessage m = new GripperInitResponseMessage(message);
 			this.waitingResponse.setResponse(m);
 			behaviorInterface.sendMessage(waitingResponse.getSender(), waitingResponse.getResponse());
-			
 			this.waitingResponse = null;
+			
 		} else if (this.waitingResponse !=null && message.contains("ACK")) {
 			GripperAckMessage m = new GripperAckMessage(message);
 			this.waitingResponse.setResponse(m);
 			return;
-		} else if (this.waitingResponse == null && message.startsWith("<I>")) {
-			System.out.println("check? " + message);
-		} else System.out.println("wrong message from gripper : " + message);
+			
+		} else logger.log("[GripperCommunication] wrong message from gripper : " + message); 
 	}
 	
 	private GripperStatusMessage parseMessage(String message) {
+		logger.log("[GripperCommunication] parse gripper status : " + message);
 		message = message.replace("<I>","").replace("</I>","");
 		String[] parsedMessage = message.split(":");
 		GripperStatusMessage result = new GripperStatusMessage(parsedMessage);
@@ -107,7 +109,7 @@ public class GripperCommunication extends SerialCommunication {
 		@Override
 		public void run() {
 			try {
-				Thread.sleep(3000);
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
