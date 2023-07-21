@@ -4,7 +4,7 @@ import kr.ac.uos.ai.arbi.model.Expression;
 import kr.ac.uos.ai.arbi.model.GLFactory;
 import kr.ac.uos.ai.arbi.model.GeneralizedList;
 import kr.ac.uos.ai.behavior.communication.message.serial.SerialMessage;
-import kr.ac.uos.ai.behavior.communication.message.serial.response.GripperResponseMessage;
+import kr.ac.uos.ai.behavior.communication.message.serial.response.GripperStatusMessage;
 import kr.ac.uos.ai.behavior.communication.message.value.ActionType;
 import kr.ac.uos.ai.behavior.communication.message.value.Item;
 
@@ -34,9 +34,9 @@ public class Perceive extends SerialMessage {
 		Expression actionResult = null;
 		if (responseMessage == null) {
 			gl = GLFactory.newGL("ok");
-		} else if(responseMessage instanceof GripperResponseMessage) {
+		} else if(responseMessage instanceof GripperStatusMessage) {
 			actionID = GLFactory.newExpression(GLFactory.newValue(this.getActionID()));
-			String[] response = ((GripperResponseMessage) responseMessage).getResponse();
+			String[] response = ((GripperStatusMessage) responseMessage).getResponse();
 			if (item == Item.PCB && response[0].equals("1")) {
 				actionResult = GLFactory.newExpression(GLFactory.newValue("success"));
 			} else if (item == Item.Housing && response[3].equals("1")) {

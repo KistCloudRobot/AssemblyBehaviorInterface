@@ -4,9 +4,11 @@ import kr.ac.uos.ai.arbi.model.Expression;
 import kr.ac.uos.ai.arbi.model.GLFactory;
 import kr.ac.uos.ai.arbi.model.GeneralizedList;
 import kr.ac.uos.ai.behavior.communication.message.serial.SerialMessage;
-import kr.ac.uos.ai.behavior.communication.message.serial.response.GripperResponseMessage;
+import kr.ac.uos.ai.behavior.communication.message.serial.response.GripperAckMessage;
+import kr.ac.uos.ai.behavior.communication.message.serial.response.GripperStatusMessage;
 import kr.ac.uos.ai.behavior.communication.message.value.ActionType;
 import kr.ac.uos.ai.behavior.communication.message.value.GripperRotation;
+import kr.ac.uos.ai.behavior.communication.message.value.Item;
 
 public class Rotate extends SerialMessage {
 
@@ -16,7 +18,7 @@ public class Rotate extends SerialMessage {
 		this(sender, actionID, GripperRotation.valueOf(action));
 	}
 	private Rotate(String sender, String actionID, GripperRotation rotation) {
-		super(sender, ActionType.RotateGripper, actionID);
+		super(sender, ActionType.Rotate, actionID);
 		this.rotation = rotation;
 	}
 
@@ -35,11 +37,16 @@ public class Rotate extends SerialMessage {
 		GeneralizedList gl = null;
 		Expression actionID = null;
 		Expression actionResult = null;
-		if (responseMessage == null) {
-			gl = GLFactory.newGL("ok");
-		} else if(responseMessage instanceof GripperResponseMessage) {
+		if (responseMessage instanceof GripperAckMessage) {
+			GripperAckMessage m = (GripperAckMessage) responseMessage;
+			if (rotation == GripperRotation.On && m.getResponse().equals("<OUT03=1_ACK/>")) {
+				gl = GLFactory.newGL("ok");
+			} else if (rotation == GripperRotation.Off && m.getResponse().equals("<OUT03=0_ACK/>")) {
+				gl = GLFactory.newGL("ok");
+			}
+		} else if(responseMessage instanceof GripperStatusMessage) {
 			actionID = GLFactory.newExpression(GLFactory.newValue(this.getActionID()));
-			String[] response = ((GripperResponseMessage) responseMessage).getResponse();
+			String[] response = ((GripperStatusMessage) responseMessage).getResponse();
 			if (this.rotation == GripperRotation.On && response[6].equals("1")) {
 				actionResult = GLFactory.newExpression(GLFactory.newValue("success"));
 			} else if (this.rotation == GripperRotation.Off && response[7].equals("1")) {

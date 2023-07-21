@@ -7,8 +7,9 @@ import kr.ac.uos.ai.behavior.communication.message.serial.request.Perceive;
 import kr.ac.uos.ai.behavior.communication.message.serial.request.Grasp;
 import kr.ac.uos.ai.behavior.communication.message.serial.request.Release;
 import kr.ac.uos.ai.behavior.communication.message.serial.request.Rotate;
+import kr.ac.uos.ai.behavior.communication.message.serial.response.GripperAckMessage;
 import kr.ac.uos.ai.behavior.communication.message.serial.response.GripperInitResponseMessage;
-import kr.ac.uos.ai.behavior.communication.message.serial.response.GripperResponseMessage;
+import kr.ac.uos.ai.behavior.communication.message.serial.response.GripperStatusMessage;
 
 public class GripperCommunication extends SerialCommunication {
 
@@ -22,8 +23,9 @@ public class GripperCommunication extends SerialCommunication {
 
 	@Override
 	public void onMessage(String message) {
-		if (this.waitingResponse != null && message.startsWith("<I>")) {
-			GripperResponseMessage m = parseMessage(message);
+		if (this.waitingResponse != null && message.startsWith("<I>") && message.endsWith("</I>")) {
+			System.out.println("GripperComm onMessage Check for AckEnd : " + message);
+			GripperStatusMessage m = parseMessage(message);
 			this.waitingResponse.setResponse(m);
 			behaviorInterface.sendMessage(waitingResponse.getSender(), waitingResponse.getResponse());
 			
@@ -34,15 +36,19 @@ public class GripperCommunication extends SerialCommunication {
 			behaviorInterface.sendMessage(waitingResponse.getSender(), waitingResponse.getResponse());
 			
 			this.waitingResponse = null;
+		} else if (this.waitingResponse !=null && message.contains("ACK")) {
+			GripperAckMessage m = new GripperAckMessage(message);
+			this.waitingResponse.setResponse(m);
+			return;
 		} else if (this.waitingResponse == null && message.startsWith("<I>")) {
 			System.out.println("check? " + message);
 		} else System.out.println("wrong message from gripper : " + message);
 	}
 	
-	private GripperResponseMessage parseMessage(String message) {
+	private GripperStatusMessage parseMessage(String message) {
 		message = message.replace("<I>","").replace("</I>","");
 		String[] parsedMessage = message.split(":");
-		GripperResponseMessage result = new GripperResponseMessage(parsedMessage);
+		GripperStatusMessage result = new GripperStatusMessage(parsedMessage);
 		return result;
 	}
 	

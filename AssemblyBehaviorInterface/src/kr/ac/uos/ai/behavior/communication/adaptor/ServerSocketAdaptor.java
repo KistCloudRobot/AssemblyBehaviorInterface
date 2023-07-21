@@ -110,6 +110,7 @@ public class ServerSocketAdaptor extends Thread implements Adaptor {
 
 	@Override
 	public void send(String message) {
+		System.out.println("send robotArm Message \t: " + message);
 		printWriter.println(message + "\r\n");
 		printWriter.flush();
 	}

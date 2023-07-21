@@ -36,11 +36,24 @@ public class EpsonTest extends ArbiAgent {
 		test.testMessage(request);
 		sc.nextLine();
 		
+		request = "(Perceive \"test20\" \"PCB\")";
+		test.testMessage(request);
+		sc.nextLine();
+		
+		
 		request = "(Grasp \"test3\" \"PCB\")";
 		test.testMessage(request);
 		sc.nextLine();
 		
+		request = "(MoveToPosition \"test6\" \"PCBScan\")";
+		test.testMessage(request);
+		sc.nextLine();
+		
 		request = "(MoveToTray \"test4\" \"Housing\" 1 1)";
+		test.testMessage(request);
+		sc.nextLine();
+		
+		request = "(Perceive \"test21\" \"Housing\")";
 		test.testMessage(request);
 		sc.nextLine();
 		
@@ -52,10 +65,10 @@ public class EpsonTest extends ArbiAgent {
 		request = "(MoveToPosition \"test6\" \"HousingLabel\")";
 		test.testMessage(request);
 		sc.nextLine();
-		
-		request = "(MoveToPosition \"test7\" \"EpsonPutWait\")";
-		test.testMessage(request);
-		sc.nextLine();
+//		
+//		request = "(MoveToPosition \"test7\" \"EpsonPutWait\")";
+//		test.testMessage(request);
+//		sc.nextLine();
 		
 		request = "(MoveToPosition \"test8\" \"HousingPut\")";
 		test.testMessage(request);

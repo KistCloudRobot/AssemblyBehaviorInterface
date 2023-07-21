@@ -16,7 +16,7 @@ public class Configuration {
   	public static final int EPSON_ARM_PORT = 1470;
 	public static final String EPSON_GRIPPER_PORT = "COM13";
 	
-	public static final int UR_ARM_PORT = 1470;
+	public static final int UR_ARM_PORT = 1471;
 	public static final String UR_ARM_SERVER_ADDRESS = "192.168.10.30";
 	public static final int UR_ARM_SERVER_PORT = 29999;
 	public static final String UR_GRIPPER_PORT = "COM12";

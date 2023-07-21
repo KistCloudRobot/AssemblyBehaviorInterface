@@ -4,7 +4,8 @@ import kr.ac.uos.ai.arbi.model.Expression;
 import kr.ac.uos.ai.arbi.model.GLFactory;
 import kr.ac.uos.ai.arbi.model.GeneralizedList;
 import kr.ac.uos.ai.behavior.communication.message.serial.SerialMessage;
-import kr.ac.uos.ai.behavior.communication.message.serial.response.GripperResponseMessage;
+import kr.ac.uos.ai.behavior.communication.message.serial.response.GripperAckMessage;
+import kr.ac.uos.ai.behavior.communication.message.serial.response.GripperStatusMessage;
 import kr.ac.uos.ai.behavior.communication.message.value.ActionType;
 import kr.ac.uos.ai.behavior.communication.message.value.Item;
 
@@ -44,18 +45,27 @@ public class Release extends SerialMessage {
 		GeneralizedList gl = null;
 		Expression actionID = null;
 		Expression actionResult = null;
-		if (responseMessage == null) {
-			gl = GLFactory.newGL("ok");
-		} else if(responseMessage instanceof GripperResponseMessage) {
+		if (responseMessage instanceof GripperAckMessage) {
+			GripperAckMessage m = (GripperAckMessage) responseMessage;
+			if (item == Item.PCB && m.getResponse().equals("<OUT01=0_ACK/>")) {
+				gl = GLFactory.newGL("ok");
+			} else if (item == Item.Housing && m.getResponse().equals("<OUT02=0_ACK/>")) {
+				gl = GLFactory.newGL("ok");
+			} else if (item == Item.Lens && m.getResponse().equals("<OUT01=0_ACK/>")) {
+				gl = GLFactory.newGL("ok");
+			} else if (item == Item.Front && m.getResponse().equals("<OUT02=0_ACK/>")) {
+				gl = GLFactory.newGL("ok");
+			}
+		} else if(responseMessage instanceof GripperStatusMessage) {
 			actionID = GLFactory.newExpression(GLFactory.newValue(this.getActionID()));
-			String[] response = ((GripperResponseMessage) responseMessage).getResponse();
-			if (item == Item.PCB && response[2].equals("1")) {
+			String[] response = ((GripperStatusMessage) responseMessage).getResponse();
+			if (item == Item.PCB && response[1].equals("1")) {
 				actionResult = GLFactory.newExpression(GLFactory.newValue("success"));
-			} else if (item == Item.Housing && response[5].equals("1")) {
+			} else if (item == Item.Housing && response[4].equals("1")) {
 				actionResult = GLFactory.newExpression(GLFactory.newValue("success"));
-			} else if (item == Item.Lens && response[2].equals("1")) {
+			} else if (item == Item.Lens && response[1].equals("1")) {
 				actionResult = GLFactory.newExpression(GLFactory.newValue("success"));
-			} else if (item == Item.Front && response[5].equals("1")) {
+			} else if (item == Item.Front && response[4].equals("1")) {
 				actionResult = GLFactory.newExpression(GLFactory.newValue("success"));
 			}	
 			gl = GLFactory.newGL("ActionResult", actionID, actionResult);

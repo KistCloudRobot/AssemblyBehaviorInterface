@@ -26,7 +26,8 @@ public class URCommunication extends RobotCommunication{
 	
 	public void onMessage(String message) {
 		System.out.println("URComm OnMessage \t: " + message);
-		message = message.replace("\r\n", "");
+		message = message.replace("\n", "");
+		message = message.replace("\r", "");
 		messageBuilder.append(message);
 		if (messageBuilder.toString().endsWith("1") || messageBuilder.toString().endsWith("3") || messageBuilder.toString().startsWith("92")) {
 
@@ -36,12 +37,16 @@ public class URCommunication extends RobotCommunication{
 		
 			if (this.waitingResponse != null) {
 				this.waitingResponse.setResponse(parsedMessage);
-				behaviorInterface.send(waitingResponse.getSender(), waitingResponse.getResponse());
 			}
 		
 			if (parsedMessage instanceof AckEndMessage) {
+				behaviorInterface.send(waitingResponse.getSender(), waitingResponse.getResponse());
 				this.waitingResponse = null;
 			}
+			messageBuilder.setLength(0);
+		} else if (messageBuilder.toString().contains("UR10")) {
+			System.out.println("UR Connected : " + messageBuilder.toString());
+
 			messageBuilder.setLength(0);
 		} else {
 			System.out.println("URComm onMessage \t: message is not complete :" + messageBuilder.toString());

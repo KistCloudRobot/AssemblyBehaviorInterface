@@ -23,28 +23,32 @@ public class URTest extends ArbiAgent{
 		request = "(InitGripper \"test2\")";
 		test.testMessage(request);
 		sc.nextLine();
+//
+//		request = "(CheckRobotReady \"test1\")";
+//		test.testMessage(request);
+//		sc.nextLine();
+//
+//		request = "(MoveToPosition \"test2\" \"URHome\")";
+//		test.testMessage(request);
+//		sc.nextLine();
 
-		request = "(CheckRobotReady \"test1\")";
+		request = "(MoveToTray \"test5\" \"Front\" 1 1)";
 		test.testMessage(request);
 		sc.nextLine();
-
-		request = "(MoveToPosition \"test2\" \"URHome\")";
+		request = "(Perceive \"test21\" \"Front\")";
+		test.testMessage(request);
+		sc.nextLine();
+		request = "(Grasp \"test6\" \"Front\")";
 		test.testMessage(request);
 		sc.nextLine();
 		
 		request = "(MoveToTray \"test3\" \"Lens\" 1 1)";
 		test.testMessage(request);
 		sc.nextLine();
-		
+		request = "(Perceive \"test20\" \"Lens\")";
+		test.testMessage(request);
+		sc.nextLine();
 		request = "(Grasp \"test4\" \"Lens\")";
-		test.testMessage(request);
-		sc.nextLine();
-		
-		request = "(MoveToTray \"test5\" \"Front\" 1 1)";
-		test.testMessage(request);
-		sc.nextLine();
-		
-		request = "(Grasp \"test6\" \"Front\")";
 		test.testMessage(request);
 		sc.nextLine();
 		

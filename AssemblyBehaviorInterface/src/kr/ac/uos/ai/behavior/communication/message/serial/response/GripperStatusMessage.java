@@ -1,10 +1,10 @@
 package kr.ac.uos.ai.behavior.communication.message.serial.response;
 
-public class GripperResponseMessage extends SerialResponseMessage {
+public class GripperStatusMessage extends SerialResponseMessage {
 	
 	private final String[] response;
 	
-	public GripperResponseMessage(String[] response) {
+	public GripperStatusMessage(String[] response) {
 		this.response = response;
 	}
 	

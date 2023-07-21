@@ -28,10 +28,10 @@ public class EpsonCommunication extends RobotCommunication{
 			
 			if (this.waitingResponse != null) {
 				this.waitingResponse.setResponse(parsedMessage);
-				behaviorInterface.send(waitingResponse.getSender(), waitingResponse.getResponse());
 			}
 			
 			if (parsedMessage instanceof AckEndMessage) {
+				behaviorInterface.send(waitingResponse.getSender(), waitingResponse.getResponse());
 				this.waitingResponse = null;
 			}
 			
@@ -61,10 +61,12 @@ public class EpsonCommunication extends RobotCommunication{
 			 result = new RobotStatusMessage(Integer.parseInt(serialMessage[0]),Integer.parseInt(serialMessage[1]),Integer.parseInt(serialMessage[2]),Integer.parseInt(serialMessage[3]));
 			 return result;
 		} else if (serialMessage[len-1].equals("1")) {
-			result = new AckMessage(Integer.parseInt(serialMessage[0]), Integer.parseInt(serialMessage[len-1]));
+			result = new AckMessage(0, Integer.parseInt(serialMessage[1]));
+//			result = new AckMessage(Integer.parseInt(serialMessage[0]), Integer.parseInt(serialMessage[len-1]));
 			return result;
 		} else if (serialMessage[len-1].equals("3")){
-			result = new AckEndMessage(Integer.parseInt(serialMessage[0]), Integer.parseInt(serialMessage[len-1]));
+			result = new AckMessage(0, Integer.parseInt(serialMessage[1]));
+//			result = new AckEndMessage(Integer.parseInt(serialMessage[0]), Integer.parseInt(serialMessage[len-1]));
 			return result;
 		} else System.out.println("wrong socket message : " + message); 
 		return result;

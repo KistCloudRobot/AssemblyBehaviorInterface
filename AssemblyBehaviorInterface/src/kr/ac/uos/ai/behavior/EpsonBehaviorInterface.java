@@ -75,7 +75,7 @@ public class EpsonBehaviorInterface extends BehaviorInterface{
 				response = gripperCommunication.release(sender, actionID, item);
 				break;
 				
-			case RotateGripper :
+			case Rotate :
 				rotation = gl.getExpression(1).asValue().stringValue();
 				response = gripperCommunication.rotate(sender, actionID, rotation);
 				break;

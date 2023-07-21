@@ -81,7 +81,7 @@ public class SerialAdaptor extends Thread implements Adaptor{
 	
 
 	private void handleMessage(String message) {
-//		System.out.println(message);
+		System.out.println("serial message :" + message);
 		communication.onMessage(message);
 	}
 	
