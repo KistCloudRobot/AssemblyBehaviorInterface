@@ -19,7 +19,15 @@ public enum ActionType {
 	
 	RotateToLabelPosition,		RotateToAttachPosition,
 	StartVacuum,				StopVacuum,
-	LiftUp,						LiftDown; 
+	LiftUp,						LiftDown,
+	
+	CheckDockingPlateStatus,
+	RaiseDockingPlate,			MoveDockingPlateToDischargeArea,
+	GraspDockingPlateInLoadingBay,			DetachDockingPlateSideFixturesInLoadingBay,
+	LowerDockingPlateInLoadingBay,			HoldDockingPlateSideFixturesInLoadingBay,
+	DetachDockingPlateCenterInLoadingBay, 	RaiseDockingHoleFixturesInLoadingBay,
+	MoveDockingPlateToTheFront;
+	
 	
 	
 	

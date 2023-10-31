@@ -2,12 +2,16 @@ package kr.ac.uos.ai.behavior.communication;
 
 import kr.ac.uos.ai.behavior.BehaviorInterface;
 import kr.ac.uos.ai.behavior.communication.message.serial.SerialMessage;
-import kr.ac.uos.ai.behavior.communication.message.serial.request.LiftDown;
-import kr.ac.uos.ai.behavior.communication.message.serial.request.LiftUp;
-import kr.ac.uos.ai.behavior.communication.message.serial.request.RotateToAttachPosition;
-import kr.ac.uos.ai.behavior.communication.message.serial.request.RotateToLabelPosition;
-import kr.ac.uos.ai.behavior.communication.message.serial.request.StartVacuum;
-import kr.ac.uos.ai.behavior.communication.message.serial.request.StopVacuum;
+import kr.ac.uos.ai.behavior.communication.message.serial.request.CheckDockingPlateStatus;
+import kr.ac.uos.ai.behavior.communication.message.serial.request.DetachDockingPlateCenterInLoadingBay;
+import kr.ac.uos.ai.behavior.communication.message.serial.request.DetachDockingPlateSideFixturesInLoadingBay;
+import kr.ac.uos.ai.behavior.communication.message.serial.request.GraspDockingPlateInLoadingBay;
+import kr.ac.uos.ai.behavior.communication.message.serial.request.HoldDockingPlateSideFixturesInLoadingBay;
+import kr.ac.uos.ai.behavior.communication.message.serial.request.LowerDockingPlateInLoadingBay;
+import kr.ac.uos.ai.behavior.communication.message.serial.request.MoveDockingPlateToDischargeArea;
+import kr.ac.uos.ai.behavior.communication.message.serial.request.MoveDockingPlateToTheFront;
+import kr.ac.uos.ai.behavior.communication.message.serial.request.RaiseDockingHoleFixturesInLoadingBay;
+import kr.ac.uos.ai.behavior.communication.message.serial.request.RaiseDockingPlate;
 import kr.ac.uos.ai.behavior.communication.message.serial.response.TrayResponseMessage;
 
 public class TrayCommunication extends SerialCommunication {
@@ -35,9 +39,9 @@ public class TrayCommunication extends SerialCommunication {
 		return result;
 	}
 	
-	public String rotateToLabelPosition(String sender, String actionID) {
+	public String checkDockingPlateStatus(String sender, String actionID) {
 		if(waitingResponse == null) {
-			this.waitingResponse = new RotateToLabelPosition(sender, actionID);
+			this.waitingResponse = new CheckDockingPlateStatus(sender, actionID);
 			this.adaptor.send(waitingResponse.getMessage());
 			return "(ok)";
 		}
@@ -45,9 +49,10 @@ public class TrayCommunication extends SerialCommunication {
 		return "(fail)";
 	}
 
-	public String rotateToAttachPosition(String sender, String actionID) {
+
+	public String raiseDockingPlate(String sender, String actionID) {
 		if(waitingResponse == null) {
-			this.waitingResponse = new RotateToAttachPosition(sender, actionID);
+			this.waitingResponse = new RaiseDockingPlate(sender, actionID);
 			this.adaptor.send(waitingResponse.getMessage());
 			return "(ok)";
 		}
@@ -55,9 +60,10 @@ public class TrayCommunication extends SerialCommunication {
 		return "(fail)";
 	}
 
-	public String startVacuum(String sender, String actionID) {
+
+	public String moveDockingPlateToDischargeArea(String sender, String actionID) {
 		if(waitingResponse == null) {
-			this.waitingResponse = new StartVacuum(sender, actionID);
+			this.waitingResponse = new MoveDockingPlateToDischargeArea(sender, actionID);
 			this.adaptor.send(waitingResponse.getMessage());
 			return "(ok)";
 		}
@@ -65,9 +71,18 @@ public class TrayCommunication extends SerialCommunication {
 		return "(fail)";
 	}
 	
-	public String stopVacuum(String sender, String actionID) {
+	public String graspDockingPlateInLoadingBay(String sender, String actionID) {
 		if(waitingResponse == null) {
-			this.waitingResponse = new StopVacuum(sender, actionID);
+			this.waitingResponse = new GraspDockingPlateInLoadingBay(sender, actionID);
+			this.adaptor.send(waitingResponse.getMessage());
+			return "(ok)";
+		}
+		
+		return "(fail)";
+	}
+	public String detachDockingPlateSideFixturesInLoadingBay(String sender, String actionID) {
+		if(waitingResponse == null) {
+			this.waitingResponse = new DetachDockingPlateSideFixturesInLoadingBay(sender, actionID);
 			this.adaptor.send(waitingResponse.getMessage());
 			return "(ok)";
 		}
@@ -75,9 +90,9 @@ public class TrayCommunication extends SerialCommunication {
 		return "(fail)";
 	}
 	
-	public String liftUp(String sender, String actionID) {
+	public String lowerDockingPlateInLoadingBay(String sender, String actionID) {
 		if(waitingResponse == null) {
-			this.waitingResponse = new LiftUp(sender, actionID);
+			this.waitingResponse = new LowerDockingPlateInLoadingBay(sender, actionID);
 			this.adaptor.send(waitingResponse.getMessage());
 			return "(ok)";
 		}
@@ -85,12 +100,41 @@ public class TrayCommunication extends SerialCommunication {
 		return "(fail)";
 	}
 	
-	public String liftDown(String sender, String actionID) {
+	public String holdDockingPlateSideFixturesInLoadingBay(String sender, String actionID) {
 		if(waitingResponse == null) {
-			this.waitingResponse = new LiftDown(sender, actionID);
+			this.waitingResponse = new HoldDockingPlateSideFixturesInLoadingBay(sender, actionID);
 			this.adaptor.send(waitingResponse.getMessage());
 			return "(ok)";
 		}
+		
+		return "(fail)";
+	}
+	
+	public String detachDockingPlateCenterInLoadingBay(String sender, String actionID) {
+		if(waitingResponse == null) {
+			this.waitingResponse = new DetachDockingPlateCenterInLoadingBay(sender, actionID);
+			this.adaptor.send(waitingResponse.getMessage());
+			return "(ok)";
+		}
+		
+		return "(fail)";
+	}
+	public String raiseDockingHoleFixturesInLoadingBay(String sender, String actionID) {
+		if(waitingResponse == null) {
+			this.waitingResponse = new RaiseDockingHoleFixturesInLoadingBay(sender, actionID);
+			this.adaptor.send(waitingResponse.getMessage());
+			return "(ok)";
+		}
+		
+		return "(fail)";
+	}
+	public String moveDockingPlateToTheFront(String sender, String actionID) {
+		if(waitingResponse == null) {
+			this.waitingResponse = new MoveDockingPlateToTheFront(sender, actionID);
+			this.adaptor.send(waitingResponse.getMessage());
+			return "(ok)";
+		}
+		
 		return "(fail)";
 	}
 }
