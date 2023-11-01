@@ -36,7 +36,7 @@ public class EpsonBehaviorInterface extends BehaviorInterface{
 //	
 	@Override
 	public String onRequest(String sender, String request) {
-		logger.log("[request]\t: " + request + " timestamp : " + System.currentTimeMillis());
+		System.out.println("[request]\t: " + request + " timestamp : " + System.currentTimeMillis());
 		try {
 			GeneralizedList gl = GLFactory.newGLFromGLString(request);
 			ActionType actionType = ActionType.valueOf(gl.getName());
@@ -92,7 +92,7 @@ public class EpsonBehaviorInterface extends BehaviorInterface{
 				response = "(wrongRequest)";
 				break;
 			}
-			logger.log("[request] response : " + response);
+			System.out.println("[request] response : " + response);
 			return response;
 		} catch (ParseException e) {
 			e.printStackTrace();

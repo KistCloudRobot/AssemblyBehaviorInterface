@@ -33,19 +33,19 @@ public class SerialAdaptor extends Adaptor{
 		}
 		
 		if (serialPort == null) {
-			logger.warning("[SerialAdaptor] Failed to find serial port : " + portName);
+			System.out.println("[SerialAdaptor] Failed to find serial port : " + portName);
 			return;
 		}
 		
 		serialPort.setBaudRate(baudRate);
 		if (!serialPort.openPort()) {
-			logger.warning("[SerialAdaptor] Cannot open port : " + portName);
+			System.out.println("[SerialAdaptor] Cannot open port : " + portName);
             return;
         }
 
         inputStream = serialPort.getInputStream();
         outputStream = serialPort.getOutputStream();
-        logger.log("[SerialAdaptor] serial port connected!");
+        System.out.println("[SerialAdaptor] serial port connected!");
         this.start();
 	}
 	
@@ -64,7 +64,7 @@ public class SerialAdaptor extends Adaptor{
                     String[] messages = receivedMessage.toString().split("\r\n");
                     for (String message : messages) {
 
-                		logger.log("[SerialAdaptor] message received : " +message);
+                    	System.out.println("[SerialAdaptor] message received : " +message);
                     	handleMessage(message);
                     }
 
@@ -87,7 +87,7 @@ public class SerialAdaptor extends Adaptor{
 	
 	
 	public void send(String message) {
-		logger.log("[SerialAdaptor] send message : " + message);
+		System.out.println("[SerialAdaptor] send message : " + message);
 		message = message + "\r\n";
 		try {
 			outputStream.write(message.getBytes());

@@ -24,7 +24,7 @@ public class GripperCommunication extends SerialCommunication {
 	@Override
 	public void onMessage(String message) {
 
-		logger.log("[GripperCommunication] onMessage : " + message);
+		System.out.println("[GripperCommunication] onMessage : " + message);
 		if (this.waitingResponse != null && message.startsWith("<I>") && message.endsWith("</I>")) {
 			
 			GripperStatusMessage m = parseMessage(message);
@@ -43,11 +43,11 @@ public class GripperCommunication extends SerialCommunication {
 			this.waitingResponse.setResponse(m);
 			return;
 			
-		} else logger.log("[GripperCommunication] wrong message from gripper : " + message); 
+		} else System.out.println("[GripperCommunication] wrong message from gripper : " + message); 
 	}
 	
 	private GripperStatusMessage parseMessage(String message) {
-		logger.log("[GripperCommunication] parse gripper status : " + message);
+		System.out.println("[GripperCommunication] parse gripper status : " + message);
 		message = message.replace("<I>","").replace("</I>","");
 		String[] parsedMessage = message.split(":");
 		GripperStatusMessage result = new GripperStatusMessage(parsedMessage);

@@ -2,6 +2,7 @@ package kr.ac.uos.ai.behavior.communication;
 
 import kr.ac.uos.ai.behavior.BehaviorInterface;
 import kr.ac.uos.ai.behavior.communication.message.robot.acknowledge.AckInitMessage;
+import kr.ac.uos.ai.behavior.communication.adaptor.ServerSocketAdaptor;
 import kr.ac.uos.ai.behavior.communication.message.robot.acknowledge.AckEndMessage;
 import kr.ac.uos.ai.behavior.communication.message.robot.acknowledge.AckMessage;
 import kr.ac.uos.ai.behavior.communication.message.robot.acknowledge.RobotStatusMessage;
@@ -10,18 +11,19 @@ public class EpsonCommunication extends RobotCommunication{
 
 	public EpsonCommunication(BehaviorInterface bi, String robotID, int port) {
 		super(bi, robotID, port);
+		adaptor = new ServerSocketAdaptor(this, port);
 	}
 	
 	public void onMessage(String message) {
-		logger.log("[EpsonCommunication] onMessage : " + message);
+		System.out.println("[EpsonCommunication] onMessage : " + message);
 		message = removeEndLineMarker(message);
 		messageBuilder.append(message);
 		if (messageBuilder.toString().endsWith("1") || messageBuilder.toString().endsWith("3") || messageBuilder.toString().startsWith("92")) {
 			AckMessage parsedMessage = parseMessage(messageBuilder.toString());
 
-			logger.log("[EpsonCommunication] parsed message : " + parsedMessage.toString());
+			System.out.println("[EpsonCommunication] parsed message : " + parsedMessage.toString());
 			if (parsedMessage instanceof AckInitMessage) {
-				logger.log("[EpsonCommunication] connected : " + message);
+				System.out.println("[EpsonCommunication] connected : " + message);
 				this.waitingResponse = null;
 				return;
 			}
@@ -37,10 +39,10 @@ public class EpsonCommunication extends RobotCommunication{
 			
 			messageBuilder.setLength(0);
 		} else if (messageBuilder.toString().contains("EPSON")) {
-			logger.log("[EpsonCommunication] onMessage : Epson connected : " + messageBuilder.toString());
+			System.out.println("[EpsonCommunication] onMessage : Epson connected : " + messageBuilder.toString());
 			messageBuilder.setLength(0);
 		} else {
-			logger.log("[EpsonCommunication] onMessage : message is not complete : " + messageBuilder.toString());
+			System.out.println("[EpsonCommunication] onMessage : message is not complete : " + messageBuilder.toString());
 			return;
 		}
 		
@@ -48,8 +50,7 @@ public class EpsonCommunication extends RobotCommunication{
 	
 	private AckMessage parseMessage(String message) {
 		AckMessage result = null;
-		logger.log("[EpsonCommunication] parseMessage : parse message -  " + message);
-		System.out.println("parse message \t: " + message);
+		System.out.println("[EpsonCommunication] parseMessage :  " + message);
 		if (message.startsWith("EPSON")) {
 			result = new AckInitMessage(message);
 			return result;
@@ -69,7 +70,7 @@ public class EpsonCommunication extends RobotCommunication{
 //			result = new AckEndMessage(Integer.parseInt(serialMessage[0]), Integer.parseInt(serialMessage[len-1]));
 			return result;
 		} else {
-			logger.warning("[EpsonCommunication] parsing failed : " + message);
+			System.out.println("[EpsonCommunication] parsing failed : " + message);
 		}
 		return result;
 	}

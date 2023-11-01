@@ -8,7 +8,6 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 import kr.ac.uos.ai.behavior.communication.Communication;
-import kr.ac.uos.ai.behavior.log.BehaviorLogger;
 
 public class SocketAdaptor extends Adaptor{
 
@@ -33,11 +32,11 @@ public class SocketAdaptor extends Adaptor{
 				bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			    this.start();
 				if (this.socket.isConnected()) {
-					logger.log("[SocketAdaptor] socket connected : " + ip + ":" + port);
+					System.out.println("[SocketAdaptor] socket connected : " + ip + ":" + port);
 					System.out.println("robot Connected : " + ip + ":" + port);
 					break;
 				} else {
-					logger.log("[SocketAdaptor] wating...");
+					System.out.println("[SocketAdaptor] wating...");
 					System.out.println("wating...");
 					Thread.sleep(5000);
 					continue;
@@ -45,7 +44,7 @@ public class SocketAdaptor extends Adaptor{
 			} catch (UnknownHostException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
-				logger.log("[SocketAdaptor] wating...");
+				System.out.println("[SocketAdaptor] wating...");
 				try {
 					Thread.sleep(5000);
 				} catch (InterruptedException e1) {
@@ -67,7 +66,7 @@ public class SocketAdaptor extends Adaptor{
 					if (messageBuilder.length() > 0) {
                         String message = messageBuilder.toString();
 
-    					logger.log("[SocketAdaptor] received message : " + message);
+                        System.out.println("[SocketAdaptor] received message : " + message);
                         handleMessage(message);
                         messageBuilder.setLength(0);
                     } else {
@@ -83,13 +82,13 @@ public class SocketAdaptor extends Adaptor{
 	
 
 	private void handleMessage(String message) {
-//		System.out.println("From UR10 Server\t : " + message);
+		System.out.println("From UR10 Server\t : " + message);
 //		robotInterface.onMessage(message);
 	}
 	
 	public void send(String message) {
-		logger.log("[SocketAdaptor] received message : " + message);
-		printWriter.println(message + "\r\n");
+		System.out.println("[SocketAdaptor] send message : " + message);
+		printWriter.println(message + "\n");
 		printWriter.flush();
 	}
 	

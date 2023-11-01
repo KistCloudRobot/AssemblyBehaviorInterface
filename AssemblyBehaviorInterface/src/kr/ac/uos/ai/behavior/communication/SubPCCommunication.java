@@ -25,13 +25,13 @@ public class SubPCCommunication extends SerialCommunication {
 			behaviorInterface.sendMessage(waitingResponse.getSender(), waitingResponse.getResponse());
 			
 			this.waitingResponse = null;
-		} else logger.warning("[SubPCCommunication] wrong message : " + message);
+		} else System.out.println("[SubPCCommunication] wrong message : " + message);
 	}
 	
 	private SubPCResponseMessage parseMessage(String message) {
 		if (message.startsWith("<CHK>")) {
 			return new SubPCResponseMessage(message);	
-		} else logger.warning("[SubPCCommunication] parsing failed : " + message);
+		} else System.out.println("[SubPCCommunication] parsing failed : " + message);
 		return null;
 	}
 	

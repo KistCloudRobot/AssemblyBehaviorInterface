@@ -16,9 +16,14 @@ public abstract class RobotCommunication extends Communication{
 	
 	public RobotCommunication(BehaviorInterface bi, String robotID, int port) {
 		super(bi);
-		adaptor = new ServerSocketAdaptor(this, port);
+//		adaptor = new ServerSocketAdaptor(this, port);
 		this.robotID = RobotID.valueOf(robotID);
 		messageBuilder = new StringBuilder();
+	}
+	
+	@Override
+	public void connect() {
+		adaptor.connect();
 	}
 	
 	public String moveToTray(String sender, String actionID, String command, int x, int y) {

@@ -9,14 +9,14 @@ import java.net.UnknownHostException;
 
 import kr.ac.uos.ai.behavior.communication.Communication;
 
-public class ServerSocketAdaptor extends Adaptor {
+public class URServerSocketAdaptor extends Adaptor {
 	
 	private ServerSocket server;
 	private Socket socket;
 	private PrintWriter printWriter;
 	private DataInputStream dataInputStream;
 	
-	public ServerSocketAdaptor(Communication rc, int port) {
+	public URServerSocketAdaptor(Communication rc, int port) {
 		super(rc);
 	
 		try {
@@ -26,25 +26,24 @@ public class ServerSocketAdaptor extends Adaptor {
 		}
 	}
 	
-	@Override
-	public void connect() {
+	public void run() {
 		try {
 			
 			System.out.println("start connect...");
 			socket = server.accept();
 			printWriter = new PrintWriter(socket.getOutputStream());
 			dataInputStream = new DataInputStream(socket.getInputStream());
-		    this.start();
-		    System.out.println("connected");
+			System.out.println("connected");
+			handleClient(socket);
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 	}
 	
-	public void run() {
+	public void handleClient(Socket clientSocket) {
+
 		try {
 
 			byte[] buffer;
@@ -55,7 +54,6 @@ public class ServerSocketAdaptor extends Adaptor {
 			    bytesRead = dataInputStream.read(buffer);
 			    if (bytesRead == -1) {
 			    	System.out.println("[ServerSocketAdaptor] connection has been terminated?");
-//			    	logger.log("[ServerSocketAdaptor] connection has been terminated?");
 			        break;
 			    }
 
@@ -63,7 +61,6 @@ public class ServerSocketAdaptor extends Adaptor {
 			    String[] messages = message.split("\r\n");
 			    for (String msg : messages) {
 			    	System.out.println("[ServerSocketAdaptor] received message " + msg);
-//			    	logger.log("[ServerSocketAdaptor] received message " + msg);
 			        handleMessage(msg);
 			    }
 			}
@@ -71,9 +68,7 @@ public class ServerSocketAdaptor extends Adaptor {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-			
 	}
-	
 	private void handleMessage(String message) {
 		communication.onMessage(message);
 	}
@@ -86,8 +81,9 @@ public class ServerSocketAdaptor extends Adaptor {
 	}
 
 	public static void main(String[] args) {
-		Adaptor adaptor = new ServerSocketAdaptor(null, 30000);
+		Adaptor adaptor = new URServerSocketAdaptor(null, 30000);
 		adaptor.connect();
 	}
+
 	
 }

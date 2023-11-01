@@ -20,7 +20,7 @@ public class LabelPrinterCommunication extends SerialCommunication {
 
 	@Override
 	public void onMessage(String message) {
-		logger.log("[LabelPrinterCommunication] onMessage : " + message);
+		System.out.println("[LabelPrinterCommunication] onMessage : " + message);
 		message = removeEndLineMarker(message);
 		if (this.waitingResponse != null && message.startsWith("<")) {
 //			message = message.replace("\r", "");
@@ -30,7 +30,7 @@ public class LabelPrinterCommunication extends SerialCommunication {
 			behaviorInterface.sendMessage(waitingResponse.getSender(), waitingResponse.getResponse());
 			
 			this.waitingResponse = null;
-		} else logger.log("[LabelPrinterCommunication] wrong message from printer : " + message);
+		} else System.out.println("[LabelPrinterCommunication] wrong message from printer : " + message);
 	}
 	
 	private TrayResponseMessage parseMessage(String message) {

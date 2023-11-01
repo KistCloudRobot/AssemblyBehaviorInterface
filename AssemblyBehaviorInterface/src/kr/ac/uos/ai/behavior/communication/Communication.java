@@ -2,17 +2,14 @@ package kr.ac.uos.ai.behavior.communication;
 
 import kr.ac.uos.ai.behavior.BehaviorInterface;
 import kr.ac.uos.ai.behavior.communication.adaptor.Adaptor;
-import kr.ac.uos.ai.behavior.log.BehaviorLogger;
 
 public abstract class Communication {
 
-	protected BehaviorLogger logger;
 	protected Adaptor adaptor;
 	protected BehaviorInterface behaviorInterface;
 	
 	public Communication(BehaviorInterface bi) {
 		this.behaviorInterface = bi;
-		this.logger = BehaviorLogger.getLogger();
 	}
 	
 	public abstract void onMessage(String message);
@@ -27,8 +24,7 @@ public abstract class Communication {
 	
 	
 	protected String removeEndLineMarker(String input) {
-		input = input.replace("\r", "");
-		input = input.replace("\n", "");
+		input = input.replace("\r\n", "");
 		return input;
 	}
 }
