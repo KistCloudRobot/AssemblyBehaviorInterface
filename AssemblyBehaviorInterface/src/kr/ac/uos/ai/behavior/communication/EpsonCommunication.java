@@ -66,7 +66,7 @@ public class EpsonCommunication extends RobotCommunication{
 //			result = new AckMessage(Integer.parseInt(serialMessage[0]), Integer.parseInt(serialMessage[len-1]));
 			return result;
 		} else if (serialMessage[len-1].equals("3")){
-			result = new AckMessage(0, Integer.parseInt(serialMessage[len-1]));
+			result = new AckEndMessage(0, Integer.parseInt(serialMessage[len-1]));
 //			result = new AckEndMessage(Integer.parseInt(serialMessage[0]), Integer.parseInt(serialMessage[len-1]));
 			return result;
 		} else {

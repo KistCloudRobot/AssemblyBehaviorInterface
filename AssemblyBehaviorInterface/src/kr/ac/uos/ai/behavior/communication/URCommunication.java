@@ -48,7 +48,8 @@ public class URCommunication extends RobotCommunication{
 	public void onMessage(String message) {
 
 		System.out.println("[URCommunication] onMessage : " + message);
-		message = removeEndLineMarker(message);
+		message = message.replace("\n", "");
+		message = message.replace("\r", "");
 		messageBuilder.append(message);
 		if (messageBuilder.toString().endsWith("1") || messageBuilder.toString().endsWith("3") || messageBuilder.toString().startsWith("92")) {
 
