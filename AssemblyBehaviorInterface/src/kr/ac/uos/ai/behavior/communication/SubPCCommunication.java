@@ -29,7 +29,7 @@ public class SubPCCommunication extends SerialCommunication {
 	}
 	
 	private SubPCResponseMessage parseMessage(String message) {
-		if (message.startsWith("<CHK>") && message.endsWith(">")) {
+		if (message.startsWith("<CHK>") && message.endsWith("</CHK>")) {
 			return new SubPCResponseMessage(message);	
 		} else System.out.println("[SubPCCommunication] parsing failed : " + message);
 		return null;

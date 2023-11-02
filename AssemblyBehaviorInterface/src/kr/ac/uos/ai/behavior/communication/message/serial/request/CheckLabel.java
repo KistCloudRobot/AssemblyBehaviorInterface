@@ -4,6 +4,7 @@ import kr.ac.uos.ai.arbi.model.Expression;
 import kr.ac.uos.ai.arbi.model.GLFactory;
 import kr.ac.uos.ai.arbi.model.GeneralizedList;
 import kr.ac.uos.ai.behavior.communication.message.serial.SerialMessage;
+import kr.ac.uos.ai.behavior.communication.message.serial.response.SubPCResponseMessage;
 import kr.ac.uos.ai.behavior.communication.message.serial.response.TrayResponseMessage;
 import kr.ac.uos.ai.behavior.communication.message.value.ActionType;
 
@@ -18,9 +19,9 @@ public class CheckLabel extends SerialMessage {
 		GeneralizedList gl = null;
 		Expression actionID = null;
 		Expression actionResult = null;
-		if(responseMessage instanceof TrayResponseMessage) {
+		if(responseMessage instanceof SubPCResponseMessage) {
 			actionID = GLFactory.newExpression(GLFactory.newValue(this.getActionID()));
-			if(((TrayResponseMessage) responseMessage).getResponse().equals("<CHK>JIG=OK</CHK>")) {
+			if(((SubPCResponseMessage) responseMessage).getResponse().equals("<CHK>JIG=OK</CHK>")) {
 				actionResult = GLFactory.newExpression(GLFactory.newValue("success"));
 			} else {
 				actionResult = GLFactory.newExpression(GLFactory.newValue("fail"));
