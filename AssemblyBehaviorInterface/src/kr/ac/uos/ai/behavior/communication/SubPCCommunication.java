@@ -19,7 +19,7 @@ public class SubPCCommunication extends SerialCommunication {
 	@Override
 	public void onMessage(String message) {
 		message = removeEndLineMarker(message);
-		if (this.waitingResponse != null && message.startsWith("<")) {
+		if (this.waitingResponse != null && message.startsWith("<") && message.endsWith(">")) {
 			SubPCResponseMessage m = parseMessage(message);
 			this.waitingResponse.setResponse(m);
 			behaviorInterface.sendMessage(waitingResponse.getSender(), waitingResponse.getResponse());
@@ -29,7 +29,7 @@ public class SubPCCommunication extends SerialCommunication {
 	}
 	
 	private SubPCResponseMessage parseMessage(String message) {
-		if (message.startsWith("<CHK>")) {
+		if (message.startsWith("<CHK>") && message.endsWith(">")) {
 			return new SubPCResponseMessage(message);	
 		} else System.out.println("[SubPCCommunication] parsing failed : " + message);
 		return null;

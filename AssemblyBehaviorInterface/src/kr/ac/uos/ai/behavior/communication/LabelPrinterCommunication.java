@@ -8,6 +8,7 @@ import kr.ac.uos.ai.behavior.communication.message.serial.request.RotateToAttach
 import kr.ac.uos.ai.behavior.communication.message.serial.request.RotateToLabelPosition;
 import kr.ac.uos.ai.behavior.communication.message.serial.request.StartVacuum;
 import kr.ac.uos.ai.behavior.communication.message.serial.request.StopVacuum;
+import kr.ac.uos.ai.behavior.communication.message.serial.response.SubPCResponseMessage;
 import kr.ac.uos.ai.behavior.communication.message.serial.response.TrayResponseMessage;
 
 public class LabelPrinterCommunication extends SerialCommunication {
@@ -21,10 +22,10 @@ public class LabelPrinterCommunication extends SerialCommunication {
 	@Override
 	public void onMessage(String message) {
 		System.out.println("[LabelPrinterCommunication] onMessage : " + message);
-		message = removeEndLineMarker(message);
-		if (this.waitingResponse != null && message.startsWith("<")) {
-//			message = message.replace("\r", "");
-//			message = message.replace("\n", "");
+//		message = removeEndLineMarker(message);
+		message = message.replace("\r", "");
+		message = message.replace("\n", "");
+		if (this.waitingResponse != null && message.startsWith("<") && message.endsWith(">")) {
 			TrayResponseMessage m = parseMessage(message);
 			this.waitingResponse.setResponse(m);
 			behaviorInterface.sendMessage(waitingResponse.getSender(), waitingResponse.getResponse());
@@ -34,8 +35,12 @@ public class LabelPrinterCommunication extends SerialCommunication {
 	}
 	
 	private TrayResponseMessage parseMessage(String message) {
-		TrayResponseMessage result = new TrayResponseMessage(message);
-		return result;
+		if (message.startsWith("<") && message.endsWith(">")) {
+			TrayResponseMessage result = new TrayResponseMessage(message);
+			return result;
+		} else System.out.println("[SubPCCommunication] parsing failed : " + message);
+		return null;
+
 	}
 	
 	public String rotateToLabelPosition(String sender, String actionID) {
