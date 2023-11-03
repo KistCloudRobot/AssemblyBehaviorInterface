@@ -32,7 +32,7 @@ public class EpsonTest extends ArbiAgent {
 		test.testMessage(request);
 		sc.nextLine();
 		
-		request = "(MoveToTray \"test2\" \"PCB\" 1 1)";
+		request = "(MoveToTray \"test2\" \"PCBGet\" 1 1)";
 		test.testMessage(request);
 		sc.nextLine();
 		
@@ -49,7 +49,7 @@ public class EpsonTest extends ArbiAgent {
 		test.testMessage(request);
 		sc.nextLine();
 		
-		request = "(MoveToTray \"test4\" \"Housing\" 1 1)";
+		request = "(MoveToTray \"test4\" \"HousingGet\" 1 1)";
 		test.testMessage(request);
 		sc.nextLine();
 		

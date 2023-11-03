@@ -24,34 +24,34 @@ public class ReplaceTrayTest extends ArbiAgent {
 		
 		sc.nextLine();
 		
-		request = "(CheckDockingPlateStatus \"test1\" \"PCB\")";
+		request = "(CheckDockingPlateStatus \"test1\" \"Housing\")";
 		test.testMessage(request);
 		sc.nextLine();
-		request = "(RaiseDockingPlate \"test2\" \"PCB\")";
+		request = "(RaiseDockingPlate \"test2\" \"Housing\")";
 		test.testMessage(request);
 		sc.nextLine();
-		request = "(MoveDockingPlateToDischargeArea \"test3\" \"PCB\")";
+		request = "(MoveDockingPlateToDischargeArea \"test3\" \"Housing\")";
 		test.testMessage(request);
 		sc.nextLine();
-		request = "(GraspDockingPlateInLoadingBay \"test4\" \"PCB\")";
+		request = "(GraspDockingPlateInLoadingBay \"test4\" \"Housing\")";
 		test.testMessage(request);
 		sc.nextLine();
-		request = "(DetachDockingPlateSideFixturesInLoadingBay \"test5\" \"PCB\")";
+		request = "(DetachDockingPlateSideFixturesInLoadingBay \"test5\" \"Housing\")";
 		test.testMessage(request);
 		sc.nextLine();
-		request = "(LowerDockingPlateInLoadingBay \"test6\" \"PCB\")";
+		request = "(LowerDockingPlateInLoadingBay \"test6\" \"Housing\")";
 		test.testMessage(request);
 		sc.nextLine();
-		request = "(HoldDockingPlateSideFixturesInLoadingBay \"test7\" \"PCB\")";
+		request = "(HoldDockingPlateSideFixturesInLoadingBay \"test7\" \"Housing\")";
 		test.testMessage(request);
 		sc.nextLine();
-		request = "(DetachDockingPlateCenterInLoadingBay \"test8\" \"PCB\")";
+		request = "(DetachDockingPlateCenterInLoadingBay \"test8\" \"Housing\")";
 		test.testMessage(request);
 		sc.nextLine();
-		request = "(RaiseDockingHoleFixturesInLoadingBay \"test9\" \"PCB\")";
+		request = "(RaiseDockingHoleFixturesInLoadingBay \"test9\" \"Housing\")";
 		test.testMessage(request);
 		sc.nextLine();
-		request = "(MoveDockingPlateToTheFront \"test10\" \"PCB\")";
+		request = "(MoveDockingPlateToTheFront \"test10\" \"Housing\")";
 		test.testMessage(request);
 		sc.nextLine();
 

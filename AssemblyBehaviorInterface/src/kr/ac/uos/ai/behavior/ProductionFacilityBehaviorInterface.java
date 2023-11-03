@@ -30,12 +30,12 @@ public class ProductionFacilityBehaviorInterface extends BehaviorInterface{
 		
 		labelPrinterCommunication.connect();
 		subPCCommunication.connect();
-		/*
-		pcbTrayCommunication.connect();
-		housingTrayCommunication.connect();
-		lensTrayCommunication.connect();
-		frontTrayCommunication.connect();
-		*/
+		
+//		pcbTrayCommunication.connect();
+//		housingTrayCommunication.connect();
+//		lensTrayCommunication.connect();
+//		frontTrayCommunication.connect();
+		
 	}
 	
 	
