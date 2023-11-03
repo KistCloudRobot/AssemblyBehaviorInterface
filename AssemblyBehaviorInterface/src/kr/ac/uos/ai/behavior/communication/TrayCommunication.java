@@ -25,7 +25,7 @@ public class TrayCommunication extends SerialCommunication {
 	@Override
 	public void onMessage(String message) {
 		message = removeEndLineMarker(message);
-		if (this.waitingResponse != null && message.startsWith("<")) {
+		if (this.waitingResponse != null && message.startsWith("<") && message.endsWith(">")) {
 			TrayResponseMessage m = parseMessage(message);
 			this.waitingResponse.setResponse(m);
 			behaviorInterface.sendMessage(waitingResponse.getSender(), waitingResponse.getResponse());
