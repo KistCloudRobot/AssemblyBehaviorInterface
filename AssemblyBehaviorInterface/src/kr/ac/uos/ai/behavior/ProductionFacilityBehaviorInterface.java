@@ -31,10 +31,10 @@ public class ProductionFacilityBehaviorInterface extends BehaviorInterface{
 		labelPrinterCommunication.connect();
 		subPCCommunication.connect();
 		
-//		pcbTrayCommunication.connect();
-//		housingTrayCommunication.connect();
-//		lensTrayCommunication.connect();
-//		frontTrayCommunication.connect();
+		pcbTrayCommunication.connect();
+		housingTrayCommunication.connect();
+		lensTrayCommunication.connect();
+		frontTrayCommunication.connect();
 		
 	}
 	
@@ -62,7 +62,7 @@ public class ProductionFacilityBehaviorInterface extends BehaviorInterface{
 				response = subPCCommunication.visionInspect(sender, actionID);
 				break;
 				
-			case CheckLabel :
+			case CheckJig :
 				response = subPCCommunication.checkLabel(sender, actionID);
 				break;
 				
@@ -113,6 +113,19 @@ public class ProductionFacilityBehaviorInterface extends BehaviorInterface{
 					lensTrayCommunication.raiseDockingPlate(sender, actionID);
 				} else if (part.equals("Front")) {
 					frontTrayCommunication.raiseDockingPlate(sender, actionID);
+				}
+				break;
+				
+			case LowerDockingPlate:
+				part = gl.getExpression(1).asValue().stringValue();
+				if (part.equals("PCB")) {
+					pcbTrayCommunication.lowerDockingPlate(sender, actionID);
+				} else if (part.equals("Housing")) {
+					housingTrayCommunication.lowerDockingPlate(sender, actionID);
+				} else if (part.equals("Lens")) {
+					lensTrayCommunication.lowerDockingPlate(sender, actionID);
+				} else if (part.equals("Front")) {
+					frontTrayCommunication.lowerDockingPlate(sender, actionID);
 				}
 				break;
 				

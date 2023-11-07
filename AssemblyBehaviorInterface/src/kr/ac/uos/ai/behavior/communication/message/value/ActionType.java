@@ -15,7 +15,7 @@ public enum ActionType {
 	CheckSubPC,
 	
 	RiseGuideJig,				VisionInspect,
-	CheckLabel,
+	CheckJig,
 	
 	RotateToLabelPosition,		RotateToAttachPosition,
 	StartVacuum,				StopVacuum,
@@ -23,6 +23,7 @@ public enum ActionType {
 	
 	CheckDockingPlateStatus,
 	RaiseDockingPlate,			MoveDockingPlateToDischargeArea,
+	LowerDockingPlate,
 	GraspDockingPlateInLoadingBay,			DetachDockingPlateSideFixturesInLoadingBay,
 	LowerDockingPlateInLoadingBay,			HoldDockingPlateSideFixturesInLoadingBay,
 	DetachDockingPlateCenterInLoadingBay, 	RaiseDockingHoleFixturesInLoadingBay,

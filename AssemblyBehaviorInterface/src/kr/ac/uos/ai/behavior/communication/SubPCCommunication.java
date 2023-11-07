@@ -2,7 +2,7 @@ package kr.ac.uos.ai.behavior.communication;
 
 import kr.ac.uos.ai.behavior.BehaviorInterface;
 import kr.ac.uos.ai.behavior.communication.message.serial.SerialMessage;
-import kr.ac.uos.ai.behavior.communication.message.serial.request.CheckLabel;
+import kr.ac.uos.ai.behavior.communication.message.serial.request.CheckJig;
 import kr.ac.uos.ai.behavior.communication.message.serial.request.CheckSubPC;
 import kr.ac.uos.ai.behavior.communication.message.serial.request.RiseGuideJig;
 import kr.ac.uos.ai.behavior.communication.message.serial.request.VisionInspect;
@@ -68,7 +68,7 @@ public class SubPCCommunication extends SerialCommunication {
 
 	public String checkLabel(String sender, String actionID) {
 		if(waitingResponse == null) {
-			this.waitingResponse = new CheckLabel(sender, actionID);
+			this.waitingResponse = new CheckJig(sender, actionID);
 			this.adaptor.send(waitingResponse.getMessage());
 			return "(ok)";
 		}

@@ -7,6 +7,7 @@ import kr.ac.uos.ai.behavior.communication.message.serial.request.DetachDockingP
 import kr.ac.uos.ai.behavior.communication.message.serial.request.DetachDockingPlateSideFixturesInLoadingBay;
 import kr.ac.uos.ai.behavior.communication.message.serial.request.GraspDockingPlateInLoadingBay;
 import kr.ac.uos.ai.behavior.communication.message.serial.request.HoldDockingPlateSideFixturesInLoadingBay;
+import kr.ac.uos.ai.behavior.communication.message.serial.request.LowerDockingPlate;
 import kr.ac.uos.ai.behavior.communication.message.serial.request.LowerDockingPlateInLoadingBay;
 import kr.ac.uos.ai.behavior.communication.message.serial.request.MoveDockingPlateToDischargeArea;
 import kr.ac.uos.ai.behavior.communication.message.serial.request.MoveDockingPlateToTheFront;
@@ -53,6 +54,16 @@ public class TrayCommunication extends SerialCommunication {
 	public String raiseDockingPlate(String sender, String actionID) {
 		if(waitingResponse == null) {
 			this.waitingResponse = new RaiseDockingPlate(sender, actionID);
+			this.adaptor.send(waitingResponse.getMessage());
+			return "(ok)";
+		}
+		
+		return "(fail)";
+	}
+
+	public String lowerDockingPlate(String sender, String actionID) {
+		if(waitingResponse == null) {
+			this.waitingResponse = new LowerDockingPlate(sender, actionID);
 			this.adaptor.send(waitingResponse.getMessage());
 			return "(ok)";
 		}
