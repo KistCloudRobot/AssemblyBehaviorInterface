@@ -24,6 +24,11 @@ public class TrayTest extends ArbiAgent {
 		
 		sc.nextLine();
 		
+		request = "(CheckJig \"test1\")";
+		test.testMessage(request);
+		sc.nextLine();
+
+		
 		request = "(RotateToLabelPosition \"test1\")";
 		test.testMessage(request);
 		sc.nextLine();
@@ -55,6 +60,7 @@ public class TrayTest extends ArbiAgent {
 		request = "(LiftUp \"test8\")";
 		test.testMessage(request);
 		sc.nextLine();
+		
 		
 	}
 	

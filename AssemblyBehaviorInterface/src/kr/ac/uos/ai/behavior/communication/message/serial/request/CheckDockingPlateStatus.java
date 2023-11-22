@@ -23,7 +23,7 @@ public class CheckDockingPlateStatus extends SerialMessage {
 		} else if (responseMessage instanceof TrayResponseMessage) {
 			actionID = GLFactory.newExpression(GLFactory.newValue(this.getActionID()));
 			String msg = ((TrayResponseMessage) responseMessage).getResponse();
-			if (msg.equals("<IN36>00000000_00000110_01010101_10101101_11111110</IN36>")) {
+			if (msg.startsWith("<IN36>") && msg.endsWith("</IN36>")) {
 				actionResult = GLFactory.newExpression(GLFactory.newValue("success"));
 			} else actionResult = GLFactory.newExpression(GLFactory.newValue("fail"));
 		}

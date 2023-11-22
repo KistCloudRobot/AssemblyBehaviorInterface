@@ -24,37 +24,37 @@ public class ReplaceTrayTest extends ArbiAgent {
 		
 		sc.nextLine();
 		
-		request = "(CheckDockingPlateStatus \"test1\" \"Housing\")";
+		request = "(CheckDockingPlateStatus \"test1\" \"PCB\")";
 		test.testMessage(request);
 		sc.nextLine();
-		request = "(RaiseDockingPlate \"test2\" \"Housing\")";
+		request = "(RaiseDockingPlate \"test2\" \"PCB\")";
 		test.testMessage(request);
 		sc.nextLine();
-		request = "(MoveDockingPlateToDischargeArea \"test3\" \"Housing\")";
+		request = "(MoveDockingPlateToDischargeArea \"test3\" \"PCB\")";
 		test.testMessage(request);
 		sc.nextLine();
-		request = "(LowerDockingPlate \"test4\" \"Housing\")";
+		request = "(LowerDockingPlate \"test4\" \"PCB\")";
 		test.testMessage(request);
 		sc.nextLine();
-		request = "(GraspDockingPlateInLoadingBay \"test5\" \"Housing\")";
+		request = "(GraspDockingPlateInLoadingBay \"test5\" \"PCB\")";
 		test.testMessage(request);
 		sc.nextLine();
-		request = "(DetachDockingPlateSideFixturesInLoadingBay \"test6\" \"Housing\")";
+		request = "(DetachDockingPlateSideFixturesInLoadingBay \"test6\" \"PCB\")";
 		test.testMessage(request);
 		sc.nextLine();
-		request = "(LowerDockingPlateInLoadingBay \"test7\" \"Housing\")";
+		request = "(LowerDockingPlateInLoadingBay \"test7\" \"PCB\")";
 		test.testMessage(request);
 		sc.nextLine();
-		request = "(HoldDockingPlateSideFixturesInLoadingBay \"test8\" \"Housing\")";
+		request = "(HoldDockingPlateSideFixturesInLoadingBay \"test8\" \"PCB\")";
 		test.testMessage(request);
 		sc.nextLine();
-		request = "(DetachDockingPlateCenterInLoadingBay \"test9\" \"Housing\")";
+		request = "(DetachDockingPlateCenterInLoadingBay \"test9\" \"PCB\")";
 		test.testMessage(request);
 		sc.nextLine();
-		request = "(RaiseDockingHoleFixturesInLoadingBay \"test10\" \"Housing\")";
+		request = "(RaiseDockingHoleFixturesInLoadingBay \"test10\" \"PCB\")";
 		test.testMessage(request);
 		sc.nextLine();
-		request = "(MoveDockingPlateToTheFront \"test11\" \"Housing\")";
+		request = "(MoveDockingPlateToTheFront \"test11\" \"PCB\")";
 		test.testMessage(request);
 		sc.nextLine();
 

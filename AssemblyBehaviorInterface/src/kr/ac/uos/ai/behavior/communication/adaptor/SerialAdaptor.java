@@ -55,6 +55,12 @@ public class SerialAdaptor extends Adaptor{
     	StringBuilder receivedMessage = new StringBuilder();
         try {
 			while (true) {
+				try {
+					Thread.sleep(10);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
                 if (inputStream.available() > 0) {
                     
                     int bytesRead = inputStream.read(buffer);
@@ -73,6 +79,7 @@ public class SerialAdaptor extends Adaptor{
                         receivedMessage.append(messages[messages.length - 1]);
                     }
                 }
+                
             }
 		} catch (IOException e) {
 			e.printStackTrace();
